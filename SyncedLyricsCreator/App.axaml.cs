@@ -6,13 +6,15 @@ using SyncedLyricsCreator.Views;
 
 namespace SyncedLyricsCreator
 {
+    /// <summary>
+    /// Base application class that launches the main window
+    /// </summary>
     public partial class App : Application
     {
-        public override void Initialize()
-        {
-            AvaloniaXamlLoader.Load(this);
-        }
+        /// <inheritdoc/>
+        public override void Initialize() => AvaloniaXamlLoader.Load(this);
 
+        /// <inheritdoc/>
         public override void OnFrameworkInitializationCompleted()
         {
             if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)

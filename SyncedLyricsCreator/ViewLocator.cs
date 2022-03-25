@@ -5,8 +5,12 @@ using SyncedLyricsCreator.ViewModels;
 
 namespace SyncedLyricsCreator
 {
+    /// <summary>
+    /// Locates the view class matching a specified view model
+    /// </summary>
     public class ViewLocator : IDataTemplate
     {
+        /// <inheritdoc/>
         public IControl Build(object data)
         {
             var name = data.GetType().FullName!.Replace("ViewModel", "View");
@@ -22,9 +26,7 @@ namespace SyncedLyricsCreator
             }
         }
 
-        public bool Match(object data)
-        {
-            return data is ViewModelBase;
-        }
+        /// <inheritdoc/>
+        public bool Match(object data) => data is ViewModelBase;
     }
 }
