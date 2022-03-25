@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31624.102
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SyncedLyricsCreator", "SyncedLyricsCreator\SyncedLyricsCreator.csproj", "{3895745F-9584-4085-8E20-4F897486DC6A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SyncedLyricsCreator.Data", "SyncedLyricsCreator.Data\SyncedLyricsCreator.Data.csproj", "{31B57389-BA16-4A7D-9569-CED4FF254A2D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{3895745F-9584-4085-8E20-4F897486DC6A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3895745F-9584-4085-8E20-4F897486DC6A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3895745F-9584-4085-8E20-4F897486DC6A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3895745F-9584-4085-8E20-4F897486DC6A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{31B57389-BA16-4A7D-9569-CED4FF254A2D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{31B57389-BA16-4A7D-9569-CED4FF254A2D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{31B57389-BA16-4A7D-9569-CED4FF254A2D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{31B57389-BA16-4A7D-9569-CED4FF254A2D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {354A8D3B-0EC2-43C8-A048-A2E3EB82A37E}
+	EndGlobalSection
+EndGlobal
