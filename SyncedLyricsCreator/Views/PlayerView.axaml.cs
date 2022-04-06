@@ -4,14 +4,14 @@ using Avalonia.Markup.Xaml;
 namespace SyncedLyricsCreator.Views
 {
     /// <summary>
-    /// Interaction logic for MainWindow.axaml
+    /// Interaction logic for the player view
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class PlayerView : UserControl
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="MainWindow"/> class.
+        /// Initializes a new instance of the <see cref="PlayerView"/> class.
         /// </summary>
-        public MainWindow() => InitializeComponent();
+        public PlayerView() => InitializeComponent();
 
         private void InitializeComponent() => AvaloniaXamlLoader.Load(this);
     }

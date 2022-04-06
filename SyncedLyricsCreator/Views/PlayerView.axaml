@@ -1,0 +1,68 @@
+<UserControl x:Class="SyncedLyricsCreator.Views.PlayerView"
+  xmlns="https://github.com/avaloniaui"
+  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+  xmlns:fa="using:FluentAvalonia.UI.Controls"
+  xmlns:i="clr-namespace:Avalonia.Xaml.Interactivity;assembly=Avalonia.Xaml.Interactivity"
+  xmlns:ia="clr-namespace:Avalonia.Xaml.Interactions.Core;assembly=Avalonia.Xaml.Interactions"
+  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+  Height="50"
+  d:DesignWidth="600"
+  mc:Ignorable="d">
+  <Grid ColumnDefinitions="Auto,*,Auto">
+    <!--  Playback controls  -->
+    <StackPanel Grid.Column="0" Orientation="Horizontal">
+      <fa:Button Margin="10,0"
+        Command="{Binding TogglePlayPauseCommand, Mode=OneTime}"
+        FontSize="30" ToolTip.Tip="Play / Pause">
+        <fa:SymbolIcon x:Name="PlayPauseButton" Symbol="PlayFilled">
+          <i:Interaction.Behaviors>
+            <!--  Playing  -->
+            <ia:DataTriggerBehavior Binding="{Binding IsPlaying}" ComparisonCondition="Equal" Value="True">
+              <ia:ChangePropertyAction PropertyName="Symbol" TargetObject="PlayPauseButton" Value="PauseFilled" />
+            </ia:DataTriggerBehavior>
+            <!--  Not playing  -->
+            <ia:DataTriggerBehavior Binding="{Binding IsPlaying}" ComparisonCondition="Equal" Value="False">
+              <ia:ChangePropertyAction PropertyName="Symbol" TargetObject="PlayPauseButton" Value="PlayFilled" />
+            </ia:DataTriggerBehavior>
+          </i:Interaction.Behaviors>
+        </fa:SymbolIcon>
+      </fa:Button>
+
+      <fa:Button Command="{Binding StopPlaybackCommand, Mode=OneTime}" FontSize="30" ToolTip.Tip="Stop">
+        <fa:SymbolIcon Symbol="StopFilled" />
+      </fa:Button>
+    </StackPanel>
+
+    <!--  Track position  -->
+    <Grid Grid.Column="1" Margin="20,0" ColumnDefinitions="*,Auto">
+      <Slider x:Name="RelativeTrackPositionSlider" Grid.Column="0" Grid.ColumnSpan="3"
+        Margin="0,10,0,0" Maximum="100" Minimum="0"
+        Orientation="Horizontal"
+        Value="{Binding RelativeTrackPosition, Mode=OneWay}">
+        <i:Interaction.Behaviors>
+          <ia:EventTriggerBehavior EventName="PointerReleased" SourceObject="RelativeTrackPositionSlider">
+            <ia:InvokeCommandAction Command="{Binding SetVolumeCommand}" CommandParameter="{Binding #RelativeTrackPositionSlider.Value}" />
+          </ia:EventTriggerBehavior>
+        </i:Interaction.Behaviors>
+      </Slider>
+
+      <Label Grid.Column="1" Content="{Binding TrackPositionText, FallbackValue='0:00 / 0:00'}" />
+    </Grid>
+
+    <!--  Volume controls  -->
+    <StackPanel Grid.Column="2" Orientation="Horizontal">
+      <fa:SymbolIcon FontSize="30" Symbol="Volume" />
+      <Slider x:Name="VolumeSlider" Width="100" Margin="10,0"
+        Maximum="1" Minimum="0"
+        ToolTip.Tip="{Binding VolumeText}"
+        Value="{Binding Volume, Mode=OneWay}">
+        <i:Interaction.Behaviors>
+          <ia:EventTriggerBehavior EventName="PointerReleased" SourceObject="VolumeSlider">
+            <ia:InvokeCommandAction Command="{Binding SetVolumeCommand}" CommandParameter="{Binding #VolumeSlider.Value}" />
+          </ia:EventTriggerBehavior>
+        </i:Interaction.Behaviors>
+      </Slider>
+    </StackPanel>
+  </Grid>
+</UserControl>
