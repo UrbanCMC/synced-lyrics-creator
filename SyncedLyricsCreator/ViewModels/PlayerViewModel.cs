@@ -3,6 +3,7 @@ using System.Timers;
 using System.Windows.Input;
 using ReactiveUI;
 using SyncedLyricsCreator.Audio;
+using SyncedLyricsCreator.Events;
 
 namespace SyncedLyricsCreator.ViewModels
 {
@@ -39,6 +40,11 @@ namespace SyncedLyricsCreator.ViewModels
 
             StopPlaybackCommand = ReactiveCommand.Create(StopPlayback, this.WhenAnyValue(x => x.IsPlaying));
             TogglePlayPauseCommand = ReactiveCommand.Create(TogglePlayPause);
+
+            MessageBus.Current.Listen<InitiateGetPlaybackTimestampEventArgs>()
+                .Subscribe(PublishPlaybackTime);
+            MessageBus.Current.Listen<JumpToTimestampEventArgs>()
+                .Subscribe(JumpToTimestamp);
         }
 
         /// <summary>
@@ -169,6 +175,29 @@ namespace SyncedLyricsCreator.ViewModels
             IsPlaying = audioPlayer.PlaybackState == Audio.Enums.PlaybackState.Playing;
         }
 
+        private void JumpToTimestamp(JumpToTimestampEventArgs args)
+        {
+            if (audioPlayer == null)
+            {
+                return;
+            }
+
+            audioPlayer.Position = args.Timestamp;
+        }
+
+        private void PublishPlaybackTime(InitiateGetPlaybackTimestampEventArgs args)
+        {
+            if (audioPlayer == null)
+            {
+                return;
+            }
+
+            var offset = DateTime.Now - args.RequestTime;
+            var playbackTime = TrackPosition - offset;
+
+            MessageBus.Current.SendMessage(new ResolveGetPlaybackTimestampEventArgs(playbackTime));
+        }
+
         private void RefreshTimer_Elapsed(object sender, ElapsedEventArgs e)
         {
             if (audioPlayer == null)
@@ -186,17 +215,7 @@ namespace SyncedLyricsCreator.ViewModels
                 return;
             }
 
-            audioPlayer.Position = TimeSpan.FromSeconds(TrackLength.TotalSeconds * relativePosition);
-        }
-
-        private void SetVolume(double volume)
-        {
-            if (audioPlayer == null)
-            {
-                return;
-            }
-
-            audioPlayer.Volume = (float)volume;
+            audioPlayer.Position = TimeSpan.FromSeconds(TrackLength.TotalSeconds * (relativePosition / 100));
         }
 
         private void StopPlayback()
