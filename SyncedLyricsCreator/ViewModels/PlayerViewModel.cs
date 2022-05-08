@@ -37,8 +37,6 @@ namespace SyncedLyricsCreator.ViewModels
             TrackLength = TimeSpan.Zero;
             TrackPosition = TimeSpan.Zero;
 
-            SetTrackPositionCommand = ReactiveCommand.Create<double>(SetTrackPosition);
-            SetVolumeCommand = ReactiveCommand.Create<double>(SetVolume);
             StopPlaybackCommand = ReactiveCommand.Create(StopPlayback, this.WhenAnyValue(x => x.IsPlaying));
             TogglePlayPauseCommand = ReactiveCommand.Create(TogglePlayPause);
         }
@@ -58,18 +56,12 @@ namespace SyncedLyricsCreator.ViewModels
         public double RelativeTrackPosition
         {
             get => relativeTrackPosition;
-            set => this.RaiseAndSetIfChanged(ref relativeTrackPosition, value);
+            set
+            {
+                this.RaiseAndSetIfChanged(ref relativeTrackPosition, value);
+                SetTrackPosition(value);
+            }
         }
-
-        /// <summary>
-        /// Gets the command for setting the playback position in the track
-        /// </summary>
-        public ICommand SetTrackPositionCommand { get; }
-
-        /// <summary>
-        /// Gets the command for setting the playback volume
-        /// </summary>
-        public ICommand SetVolumeCommand { get; }
 
         /// <summary>
         /// Gets the command for stopping playback
@@ -117,7 +109,7 @@ namespace SyncedLyricsCreator.ViewModels
         /// </summary>
         public string TrackPositionText
         {
-            get => $"{TrackPosition.TotalMinutes:N0}:{TrackPosition.Seconds:D2} / {TrackLength.TotalMinutes:N0}:{TrackLength.Seconds:D2}";
+            get => $"{TrackPosition.Minutes:N0}:{TrackPosition.Seconds:D2} / {TrackLength.Minutes:N0}:{TrackLength.Seconds:D2}";
         }
 
         /// <summary>
@@ -158,10 +150,10 @@ namespace SyncedLyricsCreator.ViewModels
         /// <summary>
         /// Loads a new file to play
         /// </summary>
-        public void LoadFile()
+        /// <param name="filePath">The path to the file</param>
+        public void LoadFile(string filePath)
         {
-            // TODO: Actually load an audio file
-            audioPlayer = new AudioPlayer("", Volume);
+            audioPlayer = new AudioPlayer(filePath, Volume);
             audioPlayer.OnPlaybackStateChanged += AudioPlayer_OnPlaybackStateChanged;
 
             TrackLength = audioPlayer.Duration;

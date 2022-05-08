@@ -130,7 +130,7 @@ namespace SyncedLyricsCreator.Audio
                 return;
             }
 
-            if (audioOut.PlaybackState == NAudio.Wave.PlaybackState.Paused)
+            if (audioOut.PlaybackState == NAudio.Wave.PlaybackState.Playing)
             {
                 Pause();
             }
