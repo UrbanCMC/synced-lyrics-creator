@@ -13,4 +13,8 @@
   <Design.DataContext>
     <vm:MainWindowViewModel />
   </Design.DataContext>
+  <Grid RowDefinitions="*,Auto">
+    <ContentControl Grid.Row="0" Content="{Binding LyricsEditorViewModel}" />
+    <ContentControl Grid.Row="1" Content="{Binding PlayerViewModel}" />
+  </Grid>
 </Window>
