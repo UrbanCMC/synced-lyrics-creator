@@ -1,4 +1,8 @@
+using System;
 using ReactiveUI;
+using SyncedLyricsCreator.Data.Models;
+using SyncedLyricsCreator.Data.Services;
+using SyncedLyricsCreator.Events;
 
 namespace SyncedLyricsCreator.ViewModels
 {
@@ -19,6 +23,11 @@ namespace SyncedLyricsCreator.ViewModels
         {
             LyricsEditorViewModel = new LyricsEditorViewModel();
             PlayerViewModel = new PlayerViewModel();
+
+            MessageBus.Current.Listen<OnLoadTrackEventArgs>()
+                .Subscribe(OnLoadTrack);
+            MessageBus.Current.Listen<OnSaveTrackEventArgs>()
+                .Subscribe(OnSaveTrack);
         }
 
         /// <summary>
@@ -37,6 +46,25 @@ namespace SyncedLyricsCreator.ViewModels
         {
             get => playerViewModel;
             set => this.RaiseAndSetIfChanged(ref playerViewModel, value);
+        }
+
+        private void OnLoadTrack(OnLoadTrackEventArgs args)
+        {
+            var lyrics = LyricsConverter.LoadFromFile(args.Path);
+            if (lyrics == null)
+            {
+                // TODO: Show message about invalid file
+                lyrics = new Lyrics();
+            }
+
+            LyricsEditorViewModel.Load(lyrics);
+            PlayerViewModel.LoadFile(args.Path);
+        }
+
+        private void OnSaveTrack(OnSaveTrackEventArgs args)
+        {
+            var lyrics = LyricsEditorViewModel.GetLyrics();
+            LyricsConverter.SaveToFile(args.Path, lyrics);
         }
     }
 }

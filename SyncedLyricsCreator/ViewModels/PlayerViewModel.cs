@@ -3,6 +3,7 @@ using System.Timers;
 using System.Windows.Input;
 using ReactiveUI;
 using SyncedLyricsCreator.Audio;
+using SyncedLyricsCreator.Audio.Enums;
 using SyncedLyricsCreator.Events;
 
 namespace SyncedLyricsCreator.ViewModels
@@ -31,7 +32,6 @@ namespace SyncedLyricsCreator.ViewModels
                 Interval = 500,
             };
 
-            refreshTimer.Start();
             refreshTimer.Elapsed += RefreshTimer_Elapsed;
 
             Volume = .5f;
@@ -53,7 +53,18 @@ namespace SyncedLyricsCreator.ViewModels
         public bool IsPlaying
         {
             get => isPlaying;
-            private set => this.RaiseAndSetIfChanged(ref isPlaying, value);
+            private set
+            {
+                this.RaiseAndSetIfChanged(ref isPlaying, value);
+                if (value)
+                {
+                    refreshTimer.Start();
+                }
+                else
+                {
+                    refreshTimer.Stop();
+                }
+            }
         }
 
         /// <summary>
@@ -113,10 +124,7 @@ namespace SyncedLyricsCreator.ViewModels
         /// <summary>
         /// Gets a string representation of the total/elapsed playback time of the loaded file
         /// </summary>
-        public string TrackPositionText
-        {
-            get => $"{TrackPosition.Minutes:N0}:{TrackPosition.Seconds:D2} / {TrackLength.Minutes:N0}:{TrackLength.Seconds:D2}";
-        }
+        public string TrackPositionText => $"{TrackPosition.Minutes:N0}:{TrackPosition.Seconds:D2} / {TrackLength.Minutes:N0}:{TrackLength.Seconds:D2}";
 
         /// <summary>
         /// Gets or sets the volume audio is played at
@@ -139,10 +147,7 @@ namespace SyncedLyricsCreator.ViewModels
         /// <summary>
         /// Gets a string representation of the current volume
         /// </summary>
-        public string VolumeText
-        {
-            get => $"{Volume:P}";
-        }
+        public string VolumeText => $"{Volume:P}";
 
         /// <inheritdoc/>
         public void Dispose()
@@ -172,7 +177,7 @@ namespace SyncedLyricsCreator.ViewModels
                 return;
             }
 
-            IsPlaying = audioPlayer.PlaybackState == Audio.Enums.PlaybackState.Playing;
+            IsPlaying = audioPlayer.PlaybackState == PlaybackState.Playing;
         }
 
         private void JumpToTimestamp(JumpToTimestampEventArgs args)
