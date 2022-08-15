@@ -13,6 +13,11 @@ namespace SyncedLyricsCreator.Helpers
         public static LyricsEditorViewModel LyricsEditorViewModel { get; } = new();
 
         /// <summary>
+        /// Gets a design-time <see cref="MainMenuViewModel"/>
+        /// </summary>
+        public static MainMenuViewModel MainMenuViewModel { get; } = new();
+
+        /// <summary>
         /// Gets a design-time <see cref="PlayerViewModel"/>
         /// </summary>
         public static PlayerViewModel PlayerViewModel { get; } = new();
@@ -20,10 +25,6 @@ namespace SyncedLyricsCreator.Helpers
         /// <summary>
         /// Gets a design-time <see cref="MainWindowViewModel"/>
         /// </summary>
-        public static MainWindowViewModel MainWindowViewModel { get; } = new()
-        {
-            LyricsEditorViewModel = LyricsEditorViewModel,
-            PlayerViewModel = PlayerViewModel,
-        };
+        public static MainWindowViewModel MainWindowViewModel { get; } = new(LyricsEditorViewModel, MainMenuViewModel, PlayerViewModel);
     }
 }

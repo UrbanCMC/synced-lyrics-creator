@@ -1,6 +1,7 @@
 using System;
 using Avalonia;
 using Avalonia.ReactiveUI;
+using Splat;
 
 namespace SyncedLyricsCreator
 {
@@ -27,7 +28,11 @@ namespace SyncedLyricsCreator
         /// <param name="args">An array of arguments passed to the application</param>
         [STAThread]
         public static void Main(string[] args)
-            => BuildAvaloniaApp()
+        {
+            Bootstrapper.Register(Locator.CurrentMutable, Locator.Current);
+
+            BuildAvaloniaApp()
                 .StartWithClassicDesktopLifetime(args);
+        }
     }
 }

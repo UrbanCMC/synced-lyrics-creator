@@ -1,0 +1,19 @@
+﻿<UserControl x:Class="SyncedLyricsCreator.Views.MainMenuView"
+  xmlns="https://github.com/avaloniaui"
+  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+  xmlns:helpers="clr-namespace:SyncedLyricsCreator.Helpers"
+  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+  d:DataContext="{x:Static helpers:DesignData.MainMenuViewModel}"
+  d:DesignHeight="150"
+  d:DesignWidth="800"
+  mc:Ignorable="d">
+  <Menu>
+    <MenuItem Header="File">
+      <MenuItem Command="{Binding OpenCommand}" Header="Open..." HotKey="Ctrl+O" />
+      <MenuItem Command="{Binding SaveCommand}" Header="Save..." HotKey="Ctrl+S" />
+      <Separator />
+      <MenuItem Command="{Binding ExitCommand}" Header="Exit" />
+    </MenuItem>
+  </Menu>
+</UserControl>

@@ -6,6 +6,8 @@ root = true
 
 #### Core EditorConfig Options ####
 
+max_line_length = 160
+
 # Indentation and spacing
 indent_size = 4
 indent_style = space
@@ -101,7 +103,7 @@ csharp_style_conditional_delegate_call = true
 
 # Modifier preferences
 csharp_prefer_static_local_function = true
-csharp_preferred_modifier_order = public,private,protected,internal,static,extern,new,virtual,abstract,sealed,override,readonly,unsafe,volatile,async
+csharp_preferred_modifier_order = public, private, protected, internal, static, extern, new, virtual, abstract, sealed, override, readonly, unsafe, volatile, async
 
 # Code-block preferences
 csharp_prefer_braces = true:warning
@@ -120,7 +122,7 @@ csharp_style_unused_value_assignment_preference = discard_variable
 csharp_style_unused_value_expression_statement_preference = discard_variable
 
 # 'using' directive preferences
-csharp_using_directive_placement =outside_namespace:none
+csharp_using_directive_placement = outside_namespace:none
 
 # New line preferences
 csharp_style_allow_blank_line_after_colon_in_constructor_initializer_experimental = false:suggestion
@@ -216,6 +218,27 @@ dotnet_naming_style.begins_with_i.required_suffix =
 dotnet_naming_style.begins_with_i.word_separator =
 dotnet_naming_style.begins_with_i.capitalization = pascal_case
 
+#### Rider settings ####
+
+# Line Breaks
+csharp_new_line_before_while = true
+csharp_wrap_before_comma = true
+csharp_wrap_before_eq = true
+
+csharp_wrap_parameters_style = chop_if_long
+csharp_wrap_after_declaration_lpar = true
+
+csharp_wrap_multiple_declaration_style = chop_if_long
+
+csharp_max_initializer_elements_on_line = 3
+csharp_wrap_object_and_collection_initializer_style = chop_if_long
+
+csharp_wrap_arguments_style = chop_if_long
+csharp_wrap_after_invocation_lpar = true
+
+csharp_wrap_after_dot_in_method_calls = false
+csharp_wrap_chained_method_calls = chop_if_long
+
 #### StyleCop settings ####
 
 # Naming rules
@@ -235,8 +258,11 @@ dotnet_diagnostic.RCS1039.severity = suggestion
 dotnet_diagnostic.RCS1078.severity = silent
 
 # Stylecop rules
+dotnet_diagnostic.SA1001.severity = none
 dotnet_diagnostic.SA1101.severity = none
+dotnet_diagnostic.SA1113.severity = none
 dotnet_diagnostic.SA1122.severity = none
 dotnet_diagnostic.SA1124.severity = none
+dotnet_diagnostic.SA1413.severity = none
 dotnet_diagnostic.SA1629.severity = none
 dotnet_diagnostic.SA1633.severity = none

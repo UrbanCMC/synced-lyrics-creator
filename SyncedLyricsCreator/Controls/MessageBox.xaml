@@ -1,0 +1,33 @@
+﻿<Window x:Class="SyncedLyricsCreator.Controls.MessageBox"
+  xmlns="https://github.com/avaloniaui"
+  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+  Title="WindowTitle"
+  MaxWidth="650"
+  CanResize="False"
+  SizeToContent="WidthAndHeight"
+  TextBlock.FontSize="12"
+  TextBlock.FontWeight="Medium"
+  WindowStartupLocation="CenterScreen">
+  <StackPanel MaxWidth="650" Orientation="Vertical">
+    <Grid ColumnDefinitions="Auto,*">
+      <!--  Icon  -->
+      <Image x:Name="Image" Grid.Column="0" Width="32"
+        Height="32" Margin="20,10,0,10" />
+
+      <!--  Text  -->
+      <TextBlock x:Name="MessageTextBlock" Grid.Column="1" MinHeight="40"
+        Margin="10,20,20,20" VerticalAlignment="Center" Text="MessageBox text"
+        TextWrapping="Wrap" />
+    </Grid>
+
+    <!--  Buttons  -->
+    <Border>
+      <StackPanel Margin="100,10,15,10" HorizontalAlignment="Right" Orientation="Horizontal">
+        <Button x:Name="FirstButton" Click="FirstButton_Click" Content="First" />
+        <Button x:Name="SecondButton" Margin="20,0" Click="SecondButton_Click"
+          Content="Second" />
+        <Button x:Name="ThirdButton" Click="ThirdButton_Click" Content="Third" />
+      </StackPanel>
+    </Border>
+  </StackPanel>
+</Window>

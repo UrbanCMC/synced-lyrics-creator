@@ -27,10 +27,7 @@ namespace SyncedLyricsCreator.ViewModels
         /// </summary>
         public PlayerViewModel()
         {
-            refreshTimer = new Timer
-            {
-                Interval = 500,
-            };
+            refreshTimer = new Timer { Interval = 500, };
 
             refreshTimer.Elapsed += RefreshTimer_Elapsed;
 

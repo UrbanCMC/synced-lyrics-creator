@@ -1,6 +1,8 @@
 using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
+using Splat;
+using SyncedLyricsCreator.Extensions;
 using SyncedLyricsCreator.ViewModels;
 using SyncedLyricsCreator.Views;
 
@@ -19,10 +21,7 @@ namespace SyncedLyricsCreator
         {
             if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
             {
-                desktop.MainWindow = new MainWindow
-                {
-                    DataContext = new MainWindowViewModel(),
-                };
+                desktop.MainWindow = new MainWindow { DataContext = Locator.Current.GetRequiredService<MainWindowViewModel>() };
             }
 
             base.OnFrameworkInitializationCompleted();

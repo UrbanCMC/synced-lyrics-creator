@@ -9,6 +9,7 @@
     <ApplicationIcon>Assets\avalonia-logo.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Folder Include="Helpers\Dialog" />
     <Folder Include="Models\" />
     <AvaloniaResource Include="Assets\**" />
   </ItemGroup>

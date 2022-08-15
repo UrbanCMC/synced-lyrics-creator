@@ -3,6 +3,8 @@ using ReactiveUI;
 using SyncedLyricsCreator.Data.Models;
 using SyncedLyricsCreator.Data.Services;
 using SyncedLyricsCreator.Events;
+using SyncedLyricsCreator.Helpers.Dialog;
+using SyncedLyricsCreator.Helpers.Dialog.MessageBox;
 
 namespace SyncedLyricsCreator.ViewModels
 {
@@ -11,18 +13,23 @@ namespace SyncedLyricsCreator.ViewModels
     /// </summary>
     public class MainWindowViewModel : ViewModelBase
     {
-        private LyricsEditorViewModel lyricsEditorViewModel;
-        private PlayerViewModel playerViewModel;
+        private LyricsEditorViewModel lyricsEditorViewModel = null!;
+        private MainMenuViewModel mainMenuViewModel = null!;
+        private PlayerViewModel playerViewModel = null!;
+
+        private string title = "Synced Lyrics Creator";
 
         /// <summary>
         /// Initializes a new instance of the <see cref="MainWindowViewModel"/> class.
         /// </summary>
-#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
-        public MainWindowViewModel()
-#pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
+        /// <param name="lyricsEditorViewModel">The view model for the lyrics editor</param>
+        /// <param name="mainMenuViewModel">The view model for the main menu</param>
+        /// <param name="playerViewModel">The view model for the player</param>
+        public MainWindowViewModel(LyricsEditorViewModel lyricsEditorViewModel, MainMenuViewModel mainMenuViewModel, PlayerViewModel playerViewModel)
         {
-            LyricsEditorViewModel = new LyricsEditorViewModel();
-            PlayerViewModel = new PlayerViewModel();
+            LyricsEditorViewModel = lyricsEditorViewModel;
+            MainMenuViewModel = mainMenuViewModel;
+            PlayerViewModel = playerViewModel;
 
             MessageBus.Current.Listen<OnLoadTrackEventArgs>()
                 .Subscribe(OnLoadTrack);
@@ -40,6 +47,15 @@ namespace SyncedLyricsCreator.ViewModels
         }
 
         /// <summary>
+        /// Gets or sets the view model for the main menu
+        /// </summary>
+        public MainMenuViewModel MainMenuViewModel
+        {
+            get => mainMenuViewModel;
+            set => this.RaiseAndSetIfChanged(ref mainMenuViewModel, value);
+        }
+
+        /// <summary>
         /// Gets or sets the view model for the media player
         /// </summary>
         public PlayerViewModel PlayerViewModel
@@ -48,14 +64,25 @@ namespace SyncedLyricsCreator.ViewModels
             set => this.RaiseAndSetIfChanged(ref playerViewModel, value);
         }
 
-        private void OnLoadTrack(OnLoadTrackEventArgs args)
+        /// <summary>
+        /// Gets or sets the window title
+        /// </summary>
+        public string Title
+        {
+            get => title;
+            set => this.RaiseAndSetIfChanged(ref title, value);
+        }
+
+        private async void OnLoadTrack(OnLoadTrackEventArgs args)
         {
             var lyrics = LyricsConverter.LoadFromFile(args.Path);
             if (lyrics == null)
             {
-                // TODO: Show message about invalid file
+                await DialogService.ShowMessageBox("Error while opening media file.", "Error", icon: MessageBoxImage.Error);
                 lyrics = new Lyrics();
             }
+
+            Title = $"Synced Lyrics Creator - {System.IO.Path.GetFileName(args.Path)}";
 
             LyricsEditorViewModel.Load(lyrics);
             PlayerViewModel.LoadFile(args.Path);
