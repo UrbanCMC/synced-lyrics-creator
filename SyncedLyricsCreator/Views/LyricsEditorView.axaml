@@ -1,9 +1,10 @@
 <UserControl x:Class="SyncedLyricsCreator.Views.LyricsEditorView"
   xmlns="https://github.com/avaloniaui"
   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-  xmlns:ae="clr-namespace:AvaloniaEdit;assembly=AvaloniaEdit"
   xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+  xmlns:helpers="clr-namespace:SyncedLyricsCreator.Helpers"
   xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+  d:DataContext="{x:Static helpers:DesignData.LyricsEditorViewModel}"
   d:DesignHeight="450"
   d:DesignWidth="800"
   mc:Ignorable="d">
