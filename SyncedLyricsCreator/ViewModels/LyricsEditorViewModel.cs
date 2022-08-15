@@ -75,6 +75,13 @@ namespace SyncedLyricsCreator.ViewModels
             var playbackTime = args.PlaybackTime;
             var lineStartIndex = GetCurrentLineStartIndex();
 
+            // Remove current timestamp from line
+            if (GetCurrentLineTimestamp() != null)
+            {
+                var endOfTimestampIndex = EditorText.IndexOf(']', lineStartIndex) + 1;
+                EditorText = EditorText.Remove(lineStartIndex, endOfTimestampIndex - lineStartIndex);
+            }
+
             EditorText = EditorText.Insert(lineStartIndex, playbackTime.ToString(timestampFormats[0]));
         }
 
