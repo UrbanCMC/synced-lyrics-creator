@@ -204,7 +204,7 @@ namespace SyncedLyricsCreator.ViewModels
             }
 
             var offset = DateTime.Now - args.RequestTime;
-            var playbackTime = TrackPosition - offset;
+            var playbackTime = audioPlayer.Position - offset;
 
             MessageBus.Current.SendMessage(new ResolveGetPlaybackTimestampEventArgs(playbackTime));
         }

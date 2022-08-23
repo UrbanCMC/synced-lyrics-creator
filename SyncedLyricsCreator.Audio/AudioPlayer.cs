@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using NAudio.Wave;
 using SyncedLyricsCreator.Audio.Enums;
 
@@ -10,7 +11,8 @@ namespace SyncedLyricsCreator.Audio
     public class AudioPlayer : IDisposable
     {
         private WasapiOut? audioOut;
-        private AudioFileReader? audioReader;
+        private AudioStreamReader? audioReader;
+        private Stream? fileStream;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="AudioPlayer"/> class.
@@ -25,15 +27,13 @@ namespace SyncedLyricsCreator.Audio
             audioOut = new WasapiOut();
             audioOut.PlaybackStopped += AudioOut_PlaybackStopped;
 
-            audioReader = new AudioFileReader(filePath)
-            {
-                Volume = NormalizeVolume(volume),
-            };
+            fileStream = new MemoryStream();
+            using var fs = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
+            fs.CopyTo(fileStream);
+            fileStream.Position = 0;
+            audioReader = new AudioStreamReader(filePath, fileStream) { Volume = NormalizeVolume(volume) };
 
-            var waveChannel = new WaveChannel32(audioReader)
-            {
-                PadWithZeroes = false,
-            };
+            var waveChannel = new WaveChannel32(audioReader) { PadWithZeroes = false, };
 
             audioOut.Init(waveChannel);
         }
@@ -109,6 +109,9 @@ namespace SyncedLyricsCreator.Audio
 
             audioReader?.Dispose();
             audioReader = null;
+
+            fileStream?.Dispose();
+            fileStream = null;
         }
 
         /// <summary>

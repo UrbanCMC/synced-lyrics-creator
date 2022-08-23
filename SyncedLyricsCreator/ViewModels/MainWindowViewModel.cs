@@ -91,9 +91,7 @@ namespace SyncedLyricsCreator.ViewModels
         private void OnSaveTrack(OnSaveTrackEventArgs args)
         {
             var lyrics = LyricsEditorViewModel.GetLyrics();
-            PlayerViewModel.UnloadFile();
             LyricsConverter.SaveToFile(args.Path, lyrics);
-            PlayerViewModel.LoadFile(args.Path);
         }
     }
 }
