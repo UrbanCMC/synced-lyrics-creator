@@ -11,7 +11,7 @@
   <Menu>
     <MenuItem Header="File">
       <MenuItem Command="{Binding OpenCommand}" Header="Open..." HotKey="Ctrl+O" />
-      <MenuItem Command="{Binding SaveCommand}" Header="Save..." HotKey="Ctrl+S" />
+      <MenuItem Command="{Binding SaveCommand}" Header="Save" HotKey="Ctrl+S" />
       <Separator />
       <MenuItem Command="{Binding ExitCommand}" Header="Exit" />
     </MenuItem>

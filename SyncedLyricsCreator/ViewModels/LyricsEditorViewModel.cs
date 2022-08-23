@@ -13,13 +13,7 @@ namespace SyncedLyricsCreator.ViewModels
     /// </summary>
     public class LyricsEditorViewModel : ViewModelBase
     {
-        private readonly string[] timestampFormats =
-        {
-            @"\[mm\:ss\.fff\]",
-            @"\[mm\:ss\.ff\]",
-            @"\[m\:ss\.fff\]",
-            @"\[m\:ss\.ff\]",
-        };
+        private readonly string[] timestampFormats = { @"\[mm\:ss\.fff\]", @"\[mm\:ss\.ff\]", @"\[m\:ss\.fff\]", @"\[m\:ss\.ff\]" };
 
         private int cursorIndex;
         private string editorText;
@@ -76,12 +70,21 @@ namespace SyncedLyricsCreator.ViewModels
         {
             var lyrics = new Lyrics();
 
-            var lines = EditorText.Split(Environment.NewLine, StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries);
+            var lines = EditorText.Split(Environment.NewLine, StringSplitOptions.TrimEntries);
             foreach (var line in lines)
             {
                 var timestamp = GetTimestampForLine(line);
                 if (timestamp == null)
                 {
+                    // Not a new line, append to previous lyrics line if any
+                    if (lyrics.Lines.Count > 0)
+                    {
+                        var previousLine = lyrics.Lines[^1];
+                        previousLine.Text += $"{Environment.NewLine}{line}";
+
+                        lyrics.Lines[^1] = previousLine;
+                    }
+
                     continue;
                 }
 

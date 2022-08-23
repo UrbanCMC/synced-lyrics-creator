@@ -167,6 +167,15 @@ namespace SyncedLyricsCreator.ViewModels
             TrackLength = audioPlayer.Duration;
         }
 
+        /// <summary>
+        /// Unloads the current track so we can write to the file
+        /// </summary>
+        public void UnloadFile()
+        {
+            audioPlayer?.Dispose();
+            audioPlayer = null;
+        }
+
         private void AudioPlayer_OnPlaybackStateChanged()
         {
             if (audioPlayer == null)

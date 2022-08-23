@@ -70,11 +70,7 @@ namespace SyncedLyricsCreator.Data.Services
             var lyrics = new Lyrics();
             var lyricsFrame = GetFrame(tag);
 
-            lyrics.Lines = lyricsFrame.Text.Select(s => new Lyrics.LyricsLine
-            {
-                Timestamp = TimeSpan.FromMilliseconds(s.Time),
-                Text = s.Text,
-            }).ToList();
+            lyrics.Lines = lyricsFrame.Text.Select(s => new Lyrics.LyricsLine { Timestamp = TimeSpan.FromMilliseconds(s.Time), Text = s.Text, }).ToList();
 
             return lyrics;
         }
@@ -92,7 +88,8 @@ namespace SyncedLyricsCreator.Data.Services
             {
                 Text = lyrics.Lines
                     .Select(s => new SynchedText((long)s.Timestamp.TotalMilliseconds, s.Text))
-                    .ToArray(),
+                    .ToArray()
+                , Format = TimestampFormat.AbsoluteMilliseconds
             };
     }
 }
