@@ -7,7 +7,7 @@ namespace SyncedLyricsCreator.Controls
     /// <summary>
     /// Interaction logic for MessageBox.xaml
     /// </summary>
-    public class MessageBox : Window
+    public partial class MessageBox : Window
     {
         private int pressedButton = -1;
 
@@ -15,31 +15,6 @@ namespace SyncedLyricsCreator.Controls
         /// Initializes a new instance of the <see cref="MessageBox"/> class.
         /// </summary>
         public MessageBox() => InitializeComponent();
-
-        /// <summary>
-        /// Gets the first button of the message box
-        /// </summary>
-        public Button FirstButton { get; private set; } = null!;
-
-        /// <summary>
-        /// Gets the message box image
-        /// </summary>
-        public Image Image { get; private set; } = null!;
-
-        /// <summary>
-        /// Gets the message box text block
-        /// </summary>
-        public TextBlock MessageTextBlock { get; private set; } = null!;
-
-        /// <summary>
-        /// Gets the second button of the message box
-        /// </summary>
-        public Button SecondButton { get; private set; } = null!;
-
-        /// <summary>
-        /// Gets the third button of the message box
-        /// </summary>
-        public Button ThirdButton { get; private set; } = null!;
 
         /// <summary>
         /// Handles the Click event for the first button

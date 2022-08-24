@@ -45,10 +45,10 @@ namespace SyncedLyricsCreator.Helpers.Dialog
             , MessageBoxButton buttons = MessageBoxButton.OK
             , MessageBoxImage icon = MessageBoxImage.None
             , MessageBoxResult defaultResult = MessageBoxResult.None
-            , string buttonCancelText = null
-            , string buttonNoText = null
-            , string buttonOkText = null
-            , string buttonYesText = null) => await ShowMessageBox(
+            , string buttonCancelText = ""
+            , string buttonNoText = ""
+            , string buttonOkText = ""
+            , string buttonYesText = "") => await ShowMessageBox(
             new MessageBoxSettings
             {
                 Button = buttons
