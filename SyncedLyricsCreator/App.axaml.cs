@@ -30,6 +30,11 @@ namespace SyncedLyricsCreator
                 }
 
                 desktop.MainWindow = new MainWindow { DataContext = context };
+                desktop.MainWindow.Closing += (sender, args) =>
+                {
+                    args.Cancel = true;
+                    context.OnClosing();
+                };
             }
 
             base.OnFrameworkInitializationCompleted();

@@ -88,6 +88,29 @@ namespace SyncedLyricsCreator.ViewModels
             PlayerViewModel.LoadFile(path);
         }
 
+        /// <summary>
+        /// Handles the closing of the application
+        /// </summary>
+        public async void OnClosing()
+        {
+            if (LyricsEditorViewModel.IsDirty)
+            {
+                var result = await DialogService.ShowMessageBox(
+                    "You have unsaved changes. Close anyway?"
+                    , "Unsaved Changes"
+                    , MessageBoxButton.YesNo
+                    , MessageBoxImage.Question
+                    , MessageBoxResult.No);
+                if (result == MessageBoxResult.No)
+                {
+                    return;
+                }
+            }
+
+            PlayerViewModel.UnloadFile();
+            Environment.Exit(0);
+        }
+
         private void OnLoadTrack(OnLoadTrackEventArgs args) => LoadTrack(args.Path);
 
         private void OnSaveTrack(OnSaveTrackEventArgs args)

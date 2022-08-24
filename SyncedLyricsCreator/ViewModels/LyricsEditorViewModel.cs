@@ -17,12 +17,14 @@ namespace SyncedLyricsCreator.ViewModels
 
         private int cursorIndex;
         private string editorText;
+        private string originalText;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="LyricsEditorViewModel"/> class
         /// </summary>
         public LyricsEditorViewModel()
         {
+            originalText = "";
             editorText = "";
             EditorText = "";
 
@@ -51,6 +53,11 @@ namespace SyncedLyricsCreator.ViewModels
             get => editorText;
             set => this.RaiseAndSetIfChanged(ref editorText, value);
         }
+
+        /// <summary>
+        /// Gets a value indicating whether the lyrics text has been modified
+        /// </summary>
+        public bool IsDirty => !string.Equals(editorText, originalText);
 
         /// <summary>
         /// Gets the command to jump to the timestamp of the current lyrics line
@@ -107,10 +114,11 @@ namespace SyncedLyricsCreator.ViewModels
                 sb.Append(line.Timestamp.ToString(timestampFormats[0])).AppendLine(line.Text);
             }
 
+            originalText = sb.ToString();
             EditorText = sb.ToString();
         }
 
-        private void RequestPlaybackTime()
+        private static void RequestPlaybackTime()
             => MessageBus.Current.SendMessage(new InitiateGetPlaybackTimestampEventArgs());
 
         private void InsertPlaybackTime(ResolveGetPlaybackTimestampEventArgs args)
