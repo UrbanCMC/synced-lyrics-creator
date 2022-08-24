@@ -73,20 +73,22 @@ namespace SyncedLyricsCreator.ViewModels
             set => this.RaiseAndSetIfChanged(ref title, value);
         }
 
-        private async void OnLoadTrack(OnLoadTrackEventArgs args)
+        public async void LoadTrack(string path)
         {
-            var lyrics = LyricsConverter.LoadFromFile(args.Path);
+            var lyrics = LyricsConverter.LoadFromFile(path);
             if (lyrics == null)
             {
                 await DialogService.ShowMessageBox("Error while opening media file.", "Error", icon: MessageBoxImage.Error);
                 lyrics = new Lyrics();
             }
 
-            Title = $"Synced Lyrics Creator - {System.IO.Path.GetFileName(args.Path)}";
+            Title = $"Synced Lyrics Creator - {System.IO.Path.GetFileName(path)}";
 
             LyricsEditorViewModel.Load(lyrics);
-            PlayerViewModel.LoadFile(args.Path);
+            PlayerViewModel.LoadFile(path);
         }
+
+        private void OnLoadTrack(OnLoadTrackEventArgs args) => LoadTrack(args.Path);
 
         private void OnSaveTrack(OnSaveTrackEventArgs args)
         {

@@ -1,3 +1,4 @@
+using System.IO;
 using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
@@ -21,7 +22,14 @@ namespace SyncedLyricsCreator
         {
             if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
             {
-                desktop.MainWindow = new MainWindow { DataContext = Locator.Current.GetRequiredService<MainWindowViewModel>() };
+                var fileArgument = desktop.Args.Length >= 1 ? desktop.Args[0] : null;
+                var context = Locator.Current.GetRequiredService<MainWindowViewModel>();
+                if (File.Exists(fileArgument))
+                {
+                    context.LoadTrack(fileArgument!);
+                }
+
+                desktop.MainWindow = new MainWindow { DataContext = context };
             }
 
             base.OnFrameworkInitializationCompleted();
