@@ -166,7 +166,7 @@ namespace SyncedLyricsCreator.ViewModels
                 // Advance one to get to first character after newline
                 lineStart += Environment.NewLine.Length;
             }
-            else if (lineStart == -1)
+            else
             {
                 lineStart = 0;
             }
@@ -178,6 +178,12 @@ namespace SyncedLyricsCreator.ViewModels
         {
             var lineStartIndex = GetCurrentLineStartIndex();
             var lineFromCursor = EditorText[lineStartIndex..];
+
+            var lineEndIndex = lineFromCursor.IndexOf(Environment.NewLine, StringComparison.OrdinalIgnoreCase);
+            if (lineEndIndex != -1)
+            {
+                lineFromCursor = lineFromCursor[..lineEndIndex];
+            }
 
             return GetTimestampForLine(lineFromCursor);
         }
