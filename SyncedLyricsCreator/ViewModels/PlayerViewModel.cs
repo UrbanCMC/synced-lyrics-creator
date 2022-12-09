@@ -1,10 +1,10 @@
 ﻿using System;
-using System.Timers;
 using System.Windows.Input;
 using ReactiveUI;
 using SyncedLyricsCreator.Audio;
 using SyncedLyricsCreator.Audio.Enums;
 using SyncedLyricsCreator.Events;
+using Timer = System.Timers.Timer;
 
 namespace SyncedLyricsCreator.ViewModels
 {
@@ -29,7 +29,7 @@ namespace SyncedLyricsCreator.ViewModels
         {
             refreshTimer = new Timer { Interval = 500, };
 
-            refreshTimer.Elapsed += RefreshTimer_Elapsed;
+            refreshTimer.Elapsed += (_, _) => RefreshTrackPosition();
 
             Volume = .5f;
             TrackLength = TimeSpan.Zero;
@@ -43,6 +43,11 @@ namespace SyncedLyricsCreator.ViewModels
             MessageBus.Current.Listen<JumpToTimestampEventArgs>()
                 .Subscribe(JumpToTimestamp);
         }
+
+        /// <summary>
+        /// Gets a value indicating whether the audio player is currently loaded
+        /// </summary>
+        public bool IsLoaded => audioPlayer != null;
 
         /// <summary>
         /// Gets a value indicating whether the player is currently playing a file
@@ -165,6 +170,7 @@ namespace SyncedLyricsCreator.ViewModels
             audioPlayer.OnPlaybackStateChanged += AudioPlayer_OnPlaybackStateChanged;
 
             TrackLength = audioPlayer.Duration;
+            RefreshTrackPosition();
         }
 
         /// <summary>
@@ -194,6 +200,7 @@ namespace SyncedLyricsCreator.ViewModels
             }
 
             audioPlayer.Position = args.Timestamp;
+            RefreshTrackPosition();
         }
 
         private void PublishPlaybackTime(InitiateGetPlaybackTimestampEventArgs args)
@@ -214,7 +221,7 @@ namespace SyncedLyricsCreator.ViewModels
             MessageBus.Current.SendMessage(new ResolveGetPlaybackTimestampEventArgs(playbackTime));
         }
 
-        private void RefreshTimer_Elapsed(object sender, ElapsedEventArgs e)
+        private void RefreshTrackPosition()
         {
             if (audioPlayer == null)
             {
@@ -236,22 +243,12 @@ namespace SyncedLyricsCreator.ViewModels
 
         private void StopPlayback()
         {
-            if (audioPlayer == null)
-            {
-                return;
-            }
-
-            audioPlayer.Stop();
+            audioPlayer?.Stop();
         }
 
         private void TogglePlayPause()
         {
-            if (audioPlayer == null)
-            {
-                return;
-            }
-
-            audioPlayer.TogglePlayPause();
+            audioPlayer?.TogglePlayPause();
         }
     }
 }

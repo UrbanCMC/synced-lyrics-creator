@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using System.Threading.Tasks;
 using ReactiveUI;
 using SyncedLyricsCreator.Data.Models;
 using SyncedLyricsCreator.Data.Services;
@@ -80,6 +81,11 @@ namespace SyncedLyricsCreator.ViewModels
         /// <param name="path">The path to the file to load</param>
         public async void LoadTrack(string path)
         {
+            if (!await TryCloseLoadedTrack())
+            {
+                return;
+            }
+
             var lyrics = LyricsConverter.LoadFromFile(path);
             if (lyrics == null)
             {
@@ -134,6 +140,31 @@ namespace SyncedLyricsCreator.ViewModels
                     , "Error while saving lyrics"
                     , icon: MessageBoxImage.Error);
             }
+        }
+
+        private async Task<bool> TryCloseLoadedTrack()
+        {
+            if (!PlayerViewModel.IsLoaded)
+            {
+                return true;
+            }
+
+            if (LyricsEditorViewModel.IsDirty)
+            {
+                var result = await DialogService.ShowMessageBox(
+                    "You have unsaved changes. Open new file anyway?"
+                    , "Unsaved Changes"
+                    , MessageBoxButton.YesNo
+                    , MessageBoxImage.Question
+                    , MessageBoxResult.No);
+                if (result == MessageBoxResult.No)
+                {
+                    return false;
+                }
+            }
+
+            PlayerViewModel.UnloadFile();
+            return true;
         }
     }
 }
