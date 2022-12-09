@@ -203,7 +203,7 @@ namespace SyncedLyricsCreator.ViewModels
                 return;
             }
 
-            var offset = DateTime.Now - args.RequestTime;
+            var offset = (DateTime.Now - args.RequestTime).Add(TimeSpan.FromMilliseconds(Settings.Instance.TimestampDelayMs));
             if (!IsPlaying)
             {
                 offset = TimeSpan.Zero;

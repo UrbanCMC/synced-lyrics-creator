@@ -31,6 +31,8 @@ namespace SyncedLyricsCreator
         {
             Bootstrapper.Register(Locator.CurrentMutable, Locator.Current);
 
+            Settings.Instance.Read();
+
             BuildAvaloniaApp()
                 .StartWithClassicDesktopLifetime(args);
         }
