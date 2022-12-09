@@ -86,16 +86,9 @@ namespace SyncedLyricsCreator.ViewModels
                 return;
             }
 
-            var lyrics = LyricsConverter.LoadFromFile(path);
-            if (lyrics == null)
-            {
-                await DialogService.ShowMessageBox("Error while opening media file.", "Error", icon: MessageBoxImage.Error);
-                lyrics = new Lyrics();
-            }
-
             Title = $"Synced Lyrics Creator - {Path.GetFileName(path)}";
 
-            LyricsEditorViewModel.Load(lyrics);
+            await LoadLyrics(path);
             PlayerViewModel.LoadFile(path);
         }
 
@@ -122,6 +115,18 @@ namespace SyncedLyricsCreator.ViewModels
             Environment.Exit(0);
         }
 
+        private async Task LoadLyrics(string path)
+        {
+            var lyrics = LyricsConverter.LoadFromFile(path);
+            if (lyrics == null)
+            {
+                await DialogService.ShowMessageBox("Error while opening media file.", "Error", icon: MessageBoxImage.Error);
+                lyrics = new Lyrics();
+            }
+
+            LyricsEditorViewModel.Load(lyrics);
+        }
+
         private void OnLoadTrack(OnLoadTrackEventArgs args) => LoadTrack(args.Path);
 
         private void OnSaveTrack(OnSaveTrackEventArgs args) => SaveTrack(args.Path);
@@ -132,6 +137,9 @@ namespace SyncedLyricsCreator.ViewModels
             {
                 var lyrics = LyricsEditorViewModel.GetLyrics();
                 LyricsConverter.SaveToFile(path, lyrics);
+
+                // After saving, load lyrics from file again to make sure we show what's currently in there
+                await LoadLyrics(path);
             }
             catch (IOException)
             {
