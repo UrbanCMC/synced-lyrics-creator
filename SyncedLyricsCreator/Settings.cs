@@ -22,6 +22,12 @@ namespace SyncedLyricsCreator
         #region Syncing
 
         /// <summary>
+        /// Gets or sets a value indicating whether the milliseconds of timestamps should be
+        /// rounded to the hundredths position (e.g. <c>[00:01.123]</c> -> <c>[00:01.120]</c>)
+        /// </summary>
+        public bool RoundTimestampMsToHundredths { get; set; }
+
+        /// <summary>
         /// Gets or sets the number of milliseconds to subtract from the
         /// actual timestamp when syncing a line to make it easier to get the timing right
         /// </summary>
@@ -49,6 +55,7 @@ namespace SyncedLyricsCreator
 
         private void InitializeDefaults()
         {
+            RoundTimestampMsToHundredths = true;
             TimestampDelayMs = 0;
         }
     }

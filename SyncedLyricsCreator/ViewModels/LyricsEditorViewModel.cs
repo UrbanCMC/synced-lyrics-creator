@@ -123,7 +123,6 @@ namespace SyncedLyricsCreator.ViewModels
 
         private void InsertPlaybackTime(ResolveGetPlaybackTimestampEventArgs args)
         {
-            var playbackTime = args.PlaybackTime;
             var lineStartIndex = GetCurrentLineStartIndex();
 
             // Remove current timestamp from line
@@ -133,7 +132,7 @@ namespace SyncedLyricsCreator.ViewModels
                 EditorText = EditorText.Remove(lineStartIndex, endOfTimestampIndex - lineStartIndex);
             }
 
-            EditorText = EditorText.Insert(lineStartIndex, playbackTime.ToString(timestampFormats[0]));
+            EditorText = EditorText.Insert(lineStartIndex, GetFormattedTimestamp(args.PlaybackTime));
         }
 
         private void JumpToTimestamp()
@@ -186,6 +185,19 @@ namespace SyncedLyricsCreator.ViewModels
             }
 
             return GetTimestampForLine(lineFromCursor);
+        }
+
+        private string GetFormattedTimestamp(TimeSpan playbackTime)
+        {
+            if (Settings.Instance.RoundTimestampMsToHundredths)
+            {
+                var ms = playbackTime.TotalMilliseconds;
+                ms = Math.Round(ms / 10) * 10;
+
+                playbackTime = TimeSpan.FromMilliseconds(ms);
+            }
+
+            return playbackTime.ToString(timestampFormats[0]);
         }
 
         private TimeSpan? GetTimestampForLine(string line)
