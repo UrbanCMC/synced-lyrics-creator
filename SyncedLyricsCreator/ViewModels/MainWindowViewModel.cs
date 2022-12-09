@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 using ReactiveUI;
 using SyncedLyricsCreator.Data.Models;
 using SyncedLyricsCreator.Data.Services;
@@ -73,6 +74,10 @@ namespace SyncedLyricsCreator.ViewModels
             set => this.RaiseAndSetIfChanged(ref title, value);
         }
 
+        /// <summary>
+        /// Loads the file at the specified path into memory and attempts to read its lyrics into the editor
+        /// </summary>
+        /// <param name="path">The path to the file to load</param>
         public async void LoadTrack(string path)
         {
             var lyrics = LyricsConverter.LoadFromFile(path);
@@ -82,7 +87,7 @@ namespace SyncedLyricsCreator.ViewModels
                 lyrics = new Lyrics();
             }
 
-            Title = $"Synced Lyrics Creator - {System.IO.Path.GetFileName(path)}";
+            Title = $"Synced Lyrics Creator - {Path.GetFileName(path)}";
 
             LyricsEditorViewModel.Load(lyrics);
             PlayerViewModel.LoadFile(path);
@@ -113,10 +118,22 @@ namespace SyncedLyricsCreator.ViewModels
 
         private void OnLoadTrack(OnLoadTrackEventArgs args) => LoadTrack(args.Path);
 
-        private void OnSaveTrack(OnSaveTrackEventArgs args)
+        private void OnSaveTrack(OnSaveTrackEventArgs args) => SaveTrack(args.Path);
+
+        private async void SaveTrack(string path)
         {
-            var lyrics = LyricsEditorViewModel.GetLyrics();
-            LyricsConverter.SaveToFile(args.Path, lyrics);
+            try
+            {
+                var lyrics = LyricsEditorViewModel.GetLyrics();
+                LyricsConverter.SaveToFile(path, lyrics);
+            }
+            catch (IOException)
+            {
+                await DialogService.ShowMessageBox(
+                    $"Failed to save file.{Environment.NewLine}Make sure it isn't in use by another application, then try again."
+                    , "Error while saving lyrics"
+                    , icon: MessageBoxImage.Error);
+            }
         }
     }
 }
