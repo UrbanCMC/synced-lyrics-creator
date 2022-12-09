@@ -31,10 +31,17 @@ namespace SyncedLyricsCreator
         {
             Bootstrapper.Register(Locator.CurrentMutable, Locator.Current);
 
-            Settings.Instance.Read();
+            LoadSettings();
 
             BuildAvaloniaApp()
                 .StartWithClassicDesktopLifetime(args);
+        }
+
+        private static void LoadSettings()
+        {
+            // Call both read and write to ensure any new settings are added to the file
+            Settings.Instance.Read();
+            Settings.Instance.Write();
         }
     }
 }
