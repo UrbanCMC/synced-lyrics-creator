@@ -114,6 +114,12 @@ namespace SyncedLyricsCreator.ViewModels
                 sb.Append(line.Timestamp.ToString(timestampFormats[0])).AppendLine(line.Text);
             }
 
+            // Remove extra line break at the end of the lyrics
+            if (sb.Length > 0)
+            {
+                sb.Remove(sb.Length - Environment.NewLine.Length, Environment.NewLine.Length);
+            }
+
             originalText = sb.ToString();
             EditorText = sb.ToString();
         }
@@ -153,7 +159,7 @@ namespace SyncedLyricsCreator.ViewModels
 
         private int GetCurrentLineStartIndex()
         {
-            var textUntilCursor = EditorText.Substring(0, CursorIndex);
+            var textUntilCursor = EditorText[..CursorIndex];
             if (string.IsNullOrWhiteSpace(textUntilCursor))
             {
                 return 0;
