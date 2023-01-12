@@ -1,0 +1,7 @@
+﻿<Style xmlns="https://github.com/avaloniaui"
+  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <Style.Resources>
+    <!--  Backgrounds  -->
+    <SolidColorBrush x:Key="AccentBackground" Color="#673AB7" />
+  </Style.Resources>
+</Style>

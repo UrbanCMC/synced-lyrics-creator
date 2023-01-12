@@ -1,0 +1,23 @@
+﻿<Styles xmlns="https://github.com/avaloniaui"
+  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <!--  HeaderedContentControl as GroupBox imitation  -->
+  <Style Selector="HeaderedContentControl.GroupBox">
+    <Setter Property="Template">
+      <Setter.Value>
+        <ControlTemplate>
+          <Border>
+            <StackPanel>
+              <ContentPresenter Padding="10"
+                Background="{DynamicResource AccentBackground}"
+                Content="{TemplateBinding Header}"
+                TextBlock.FontWeight="Bold" />
+              <Border BorderBrush="{DynamicResource AccentBackground}" BorderThickness="1">
+                <ContentPresenter Margin="10" Content="{TemplateBinding Content}" />
+              </Border>
+            </StackPanel>
+          </Border>
+        </ControlTemplate>
+      </Setter.Value>
+    </Setter>
+  </Style>
+</Styles>

@@ -7,6 +7,8 @@ using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
 using ReactiveUI;
 using SyncedLyricsCreator.Events;
+using SyncedLyricsCreator.Helpers.Dialog;
+using SyncedLyricsCreator.ViewModels.Dialogs;
 
 namespace SyncedLyricsCreator.ViewModels
 {
@@ -25,6 +27,7 @@ namespace SyncedLyricsCreator.ViewModels
             ExitCommand = ReactiveCommand.Create(Exit);
             OpenCommand = ReactiveCommand.Create(PublishLoadEventAsync);
             SaveCommand = ReactiveCommand.Create(PublishSaveEvent);
+            SettingsCommand = ReactiveCommand.Create(ShowSettings);
         }
 
         /// <summary>
@@ -41,6 +44,11 @@ namespace SyncedLyricsCreator.ViewModels
         /// Gets the command to save the lyrics currently in the editor
         /// </summary>
         public ICommand SaveCommand { get; }
+
+        /// <summary>
+        /// Gets the command to show the settings window
+        /// </summary>
+        public ICommand SettingsCommand { get; }
 
         private void Exit()
         {
@@ -82,5 +90,7 @@ namespace SyncedLyricsCreator.ViewModels
 
             MessageBus.Current.SendMessage(new OnSaveTrackEventArgs(currentFilePath));
         }
+
+        private void ShowSettings() => _ = DialogService.ShowDialog(new SettingsDialogViewModel());
     }
 }

@@ -1,4 +1,5 @@
 ﻿using SyncedLyricsCreator.ViewModels;
+using SyncedLyricsCreator.ViewModels.Dialogs;
 
 namespace SyncedLyricsCreator.Helpers
 {
@@ -26,5 +27,10 @@ namespace SyncedLyricsCreator.Helpers
         /// Gets a design-time <see cref="MainWindowViewModel"/>
         /// </summary>
         public static MainWindowViewModel MainWindowViewModel { get; } = new(LyricsEditorViewModel, MainMenuViewModel, PlayerViewModel);
+
+        /// <summary>
+        /// Gets a design-time <see cref="SettingsDialogViewModel"/>
+        /// </summary>
+        public static SettingsDialogViewModel SettingsDialogViewModel { get; } = new() { RoundTimestampMsToHundredths = true, TimestampDelayMs = 300 };
     }
 }

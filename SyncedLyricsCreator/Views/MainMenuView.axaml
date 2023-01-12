@@ -13,6 +13,8 @@
       <MenuItem Command="{Binding OpenCommand}" Header="Open..." HotKey="Ctrl+O" />
       <MenuItem Command="{Binding SaveCommand}" Header="Save" HotKey="Ctrl+S" />
       <Separator />
+      <MenuItem Command="{Binding SettingsCommand}" Header="Settings..." />
+      <Separator />
       <MenuItem Command="{Binding ExitCommand}" Header="Exit" />
     </MenuItem>
   </Menu>

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
 using SyncedLyricsCreator.Controls;
 using SyncedLyricsCreator.Helpers.Dialog.MessageBox;
@@ -24,6 +25,20 @@ namespace SyncedLyricsCreator.Helpers.Dialog
         {
             var dialog = BuildWindow(dialogViewModel);
             dialog.Show(Owner);
+        }
+
+        /// <summary>
+        /// Shows a modal-dialog
+        /// </summary>
+        /// <param name="dialogViewModel">The view model of the dialog</param>
+        /// <returns>The result of the dialog</returns>
+        public static async Task<bool?> ShowDialog(IModalDialogViewModel dialogViewModel)
+        {
+            var dialog = BuildWindow(dialogViewModel as ViewModelBase);
+            dialog.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+            await dialog.ShowDialog(Owner);
+
+            return dialogViewModel.DialogResult;
         }
 
         /// <summary>
@@ -73,8 +88,13 @@ namespace SyncedLyricsCreator.Helpers.Dialog
             return await messageBox.Show(Owner);
         }
 
-        private static Window BuildWindow(ViewModelBase viewModel)
+        private static Window BuildWindow(ViewModelBase? viewModel)
         {
+            if (viewModel == null)
+            {
+                throw new ArgumentNullException(nameof(viewModel));
+            }
+
             var name = viewModel.GetType().FullName?.Replace("ViewModel", "View");
             if (string.IsNullOrEmpty(name))
             {

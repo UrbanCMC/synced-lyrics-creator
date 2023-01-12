@@ -40,8 +40,6 @@
     <DocumentationFile>bin\Release\SyncedLyricsCreator.xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
-    <Folder Include="Helpers\Dialog" />
-    <Folder Include="Models\" />
     <AvaloniaResource Include="Assets\**" />
   </ItemGroup>
   <ItemGroup>
