@@ -9,6 +9,7 @@ namespace SyncedLyricsCreator.ViewModels.Dialogs;
 /// </summary>
 public class SettingsDialogViewModel : ViewModelBase, IModalDialogViewModel
 {
+    private bool advanceLineAfterSyncing;
     private bool? dialogResult;
     private bool isComplete;
     private bool roundTimestampMsToHundredths;
@@ -45,6 +46,16 @@ public class SettingsDialogViewModel : ViewModelBase, IModalDialogViewModel
     public ICommand OkCommand { get; }
 
     /// <summary>
+    /// Gets or sets a value indicating whether the editor should automatically advance
+    /// to the next line after syncing the current one
+    /// </summary>
+    public bool AdvanceLineAfterSyncing
+    {
+        get => advanceLineAfterSyncing;
+        set => this.RaiseAndSetIfChanged(ref advanceLineAfterSyncing, value);
+    }
+
+    /// <summary>
     /// Gets or sets a value indicating whether the milliseconds of timestamps should be
     /// rounded to the hundredths position (e.g. <c>[00:01.123]</c> -> <c>[00:01.120]</c>)
     /// </summary>
@@ -66,12 +77,16 @@ public class SettingsDialogViewModel : ViewModelBase, IModalDialogViewModel
 
     private void LoadSettings()
     {
+        AdvanceLineAfterSyncing = Settings.Instance.AdvanceLineAfterSyncing;
+
         RoundTimestampMsToHundredths = Settings.Instance.RoundTimestampMsToHundredths;
         TimestampDelayMs = Settings.Instance.TimestampDelayMs;
     }
 
     private void SaveSettings()
     {
+        Settings.Instance.AdvanceLineAfterSyncing = AdvanceLineAfterSyncing;
+
         Settings.Instance.RoundTimestampMsToHundredths = RoundTimestampMsToHundredths;
         Settings.Instance.TimestampDelayMs = TimestampDelayMs;
 

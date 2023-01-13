@@ -19,7 +19,17 @@ namespace SyncedLyricsCreator
         /// </summary>
         public static Settings Instance { get; } = new();
 
-        #region Syncing
+        #region Editor
+
+        /// <summary>
+        /// Gets or sets a value indicating whether the editor should automatically advance
+        /// to the next line after syncing the current one
+        /// </summary>
+        public bool AdvanceLineAfterSyncing { get; set; }
+
+        #endregion
+
+        #region Timestamps
 
         /// <summary>
         /// Gets or sets a value indicating whether the milliseconds of timestamps should be
@@ -55,6 +65,8 @@ namespace SyncedLyricsCreator
 
         private void InitializeDefaults()
         {
+            AdvanceLineAfterSyncing = false;
+
             RoundTimestampMsToHundredths = true;
             TimestampDelayMs = 0;
         }

@@ -14,13 +14,23 @@
   <Grid RowDefinitions="*,Auto">
     <ScrollViewer Grid.Row="0" VerticalScrollBarVisibility="Auto">
       <StackPanel Orientation="Vertical">
+        <!--  Editor settings  -->
+        <HeaderedContentControl Margin="10" Classes="GroupBox" Header="Editor">
+          <Grid Margin="20,0,20,20" ColumnDefinitions="Auto" RowDefinitions="Auto">
+            <CheckBox Grid.Row="0" Grid.Column="0" VerticalAlignment="Center"
+              Content="Advance line after syncing"
+              IsChecked="{Binding AdvanceLineAfterSyncing}"
+              ToolTip.Tip="Whether the editor should automatically advance to the next line after syncing the current one." />
+          </Grid>
+        </HeaderedContentControl>
+
         <!--  Timestamp settings  -->
         <HeaderedContentControl Margin="10" Classes="GroupBox" Header="Timestamps">
           <Grid Margin="20,0,20,20" ColumnDefinitions="Auto,Auto" RowDefinitions="Auto,Auto">
             <CheckBox Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2"
               VerticalAlignment="Center" Content="Round MS to hundredths"
               IsChecked="{Binding RoundTimestampMsToHundredths, Mode=TwoWay}"
-              ToolTip.Tip="Whether timestamp milliseconds should be rounded to the hundredths. Otherwise, they will use thousandths precision" />
+              ToolTip.Tip="Whether timestamp milliseconds should be rounded to the hundredths. Otherwise, they will use thousandths precision." />
             <TextBlock Grid.Row="1" Grid.Column="0" VerticalAlignment="Center"
               Text="Timestamp Delay (ms)" ToolTip.Tip="Sets the delay in milliseconds that should be subtracted when syncing a line." />
             <NumericUpDown Grid.Row="1" Grid.Column="1" Margin="10,10,0,0"

@@ -127,6 +127,16 @@ namespace SyncedLyricsCreator.ViewModels
         private static void RequestPlaybackTime()
             => MessageBus.Current.SendMessage(new InitiateGetPlaybackTimestampEventArgs());
 
+        private void AdvanceToNextLine()
+        {
+            var lineStartIndex = GetCurrentLineStartIndex();
+            var nextLineBreakIndex = EditorText.IndexOf(Environment.NewLine, lineStartIndex, StringComparison.Ordinal);
+            if (nextLineBreakIndex > lineStartIndex)
+            {
+                CursorIndex = nextLineBreakIndex + 1;
+            }
+        }
+
         private void InsertPlaybackTime(ResolveGetPlaybackTimestampEventArgs args)
         {
             var lineStartIndex = GetCurrentLineStartIndex();
@@ -139,6 +149,11 @@ namespace SyncedLyricsCreator.ViewModels
             }
 
             EditorText = EditorText.Insert(lineStartIndex, GetFormattedTimestamp(args.PlaybackTime));
+
+            if (Settings.Instance.AdvanceLineAfterSyncing)
+            {
+                AdvanceToNextLine();
+            }
         }
 
         private void JumpToTimestamp()
