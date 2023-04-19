@@ -1,5 +1,6 @@
 ﻿using System.IO;
 using System.Reflection;
+using Avalonia.Input;
 using Westwind.Utilities.Configuration;
 
 namespace SyncedLyricsCreator
@@ -26,6 +27,20 @@ namespace SyncedLyricsCreator
         /// to the next line after syncing the current one
         /// </summary>
         public bool AdvanceLineAfterSyncing { get; set; }
+
+        #endregion
+
+        #region Hotkeys
+
+        /// <summary>
+        /// Gets or sets the gesture to jump to the current timestamp in the loaded music file
+        /// </summary>
+        public KeyGesture JumpToTimestampKeyBinding { get; set; } = null!;
+
+        /// <summary>
+        /// Gets or sets the gesture to set a timestamp for the current line
+        /// </summary>
+        public KeyGesture SetTimestampKeyBinding { get; set; } = null!;
 
         #endregion
 
@@ -66,6 +81,9 @@ namespace SyncedLyricsCreator
         private void InitializeDefaults()
         {
             AdvanceLineAfterSyncing = false;
+
+            JumpToTimestampKeyBinding = KeyGesture.Parse("F6");
+            SetTimestampKeyBinding = KeyGesture.Parse("F7");
 
             RoundTimestampMsToHundredths = true;
             TimestampDelayMs = 0;

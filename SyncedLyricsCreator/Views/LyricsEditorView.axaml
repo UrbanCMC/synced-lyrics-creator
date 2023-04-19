@@ -8,10 +8,7 @@
   d:DesignHeight="450"
   d:DesignWidth="800"
   mc:Ignorable="d">
-  <TextBox AcceptsReturn="True" CaretIndex="{Binding CursorIndex, Mode=TwoWay}" Text="{Binding EditorText}">
-    <TextBox.KeyBindings>
-      <KeyBinding Command="{Binding JumpToTimestampCommand, Mode=OneTime}" Gesture="F6" />
-      <KeyBinding Command="{Binding SetTimestampCommand, Mode=OneTime}" Gesture="F7" />
-    </TextBox.KeyBindings>
-  </TextBox>
+  <TextBox x:Name="LyricsTextBox" AcceptsReturn="True"
+    CaretIndex="{Binding CursorIndex, Mode=TwoWay}"
+    Text="{Binding EditorText}" />
 </UserControl>
