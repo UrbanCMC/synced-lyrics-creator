@@ -30,6 +30,8 @@ namespace SyncedLyricsCreator.Views
             }
 
             lyricsTextBox.KeyBindings.Clear();
+            lyricsTextBox.KeyBindings.Add(new KeyBinding { Gesture = Settings.Instance.DecreaseTimestampKeyBinding, Command = vm.DecreaseTimestampCommand });
+            lyricsTextBox.KeyBindings.Add(new KeyBinding { Gesture = Settings.Instance.IncreaseTimestampKeyBinding, Command = vm.IncreaseTimestampCommand });
             lyricsTextBox.KeyBindings.Add(new KeyBinding { Gesture = Settings.Instance.JumpToTimestampKeyBinding, Command = vm.JumpToTimestampCommand });
             lyricsTextBox.KeyBindings.Add(new KeyBinding { Gesture = Settings.Instance.SetTimestampKeyBinding, Command = vm.SetTimestampCommand });
         }

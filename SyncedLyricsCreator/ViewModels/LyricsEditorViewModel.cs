@@ -32,6 +32,8 @@ namespace SyncedLyricsCreator.ViewModels
             MessageBus.Current.Listen<ResolveGetPlaybackTimestampEventArgs>()
                 .Subscribe(InsertPlaybackTime);
 
+            DecreaseTimestampCommand = ReactiveCommand.Create(DecreaseTimestamp);
+            IncreaseTimestampCommand = ReactiveCommand.Create(IncreaseTimestamp);
             JumpToTimestampCommand = ReactiveCommand.Create(JumpToTimestamp);
             SetTimestampCommand = ReactiveCommand.Create(RequestPlaybackTime);
         }
@@ -58,6 +60,16 @@ namespace SyncedLyricsCreator.ViewModels
         /// Gets a value indicating whether the lyrics text has been modified
         /// </summary>
         public bool IsDirty => !string.Equals(editorText, originalText);
+
+        /// <summary>
+        /// Gets the command to decrease the timestamp for the current lyrics line
+        /// </summary>
+        public ICommand DecreaseTimestampCommand { get; }
+
+        /// <summary>
+        /// Gets the command to increase the timestamp for the current lyrics line
+        /// </summary>
+        public ICommand IncreaseTimestampCommand { get; }
 
         /// <summary>
         /// Gets the command to jump to the timestamp of the current lyrics line
@@ -137,39 +149,16 @@ namespace SyncedLyricsCreator.ViewModels
             }
         }
 
-        private void InsertPlaybackTime(ResolveGetPlaybackTimestampEventArgs args)
+        private void DecreaseTimestamp()
         {
-            var lineStartIndex = GetCurrentLineStartIndex();
-
-            // Remove current timestamp from line
-            if (GetCurrentLineTimestamp() != null)
-            {
-                var endOfTimestampIndex = EditorText.IndexOf(']', lineStartIndex) + 1;
-                EditorText = EditorText.Remove(lineStartIndex, endOfTimestampIndex - lineStartIndex);
-            }
-
-            EditorText = EditorText.Insert(lineStartIndex, GetFormattedTimestamp(args.PlaybackTime));
-
-            if (Settings.Instance.AdvanceLineAfterSyncing)
-            {
-                AdvanceToNextLine();
-            }
-        }
-
-        private void JumpToTimestamp()
-        {
-            if (string.IsNullOrWhiteSpace(EditorText))
-            {
-                return;
-            }
-
             var timestamp = GetCurrentLineTimestamp();
             if (timestamp == null)
             {
                 return;
             }
 
-            MessageBus.Current.SendMessage(new JumpToTimestampEventArgs(timestamp.Value));
+            InsertTimestamp(timestamp.Value.Add(TimeSpan.FromMilliseconds(-50)), false);
+            JumpToTimestamp();
         }
 
         private int GetCurrentLineStartIndex()
@@ -240,6 +229,58 @@ namespace SyncedLyricsCreator.ViewModels
             }
 
             return null;
+        }
+
+        private void IncreaseTimestamp()
+        {
+            var timestamp = GetCurrentLineTimestamp();
+            if (timestamp == null)
+            {
+                return;
+            }
+
+            InsertTimestamp(timestamp.Value.Add(TimeSpan.FromMilliseconds(50)), false);
+            JumpToTimestamp();
+        }
+
+        private void InsertPlaybackTime(ResolveGetPlaybackTimestampEventArgs args)
+        {
+            InsertTimestamp(args.PlaybackTime);
+        }
+
+        private void InsertTimestamp(TimeSpan timestamp, bool allowAdvanceToNextLine = true)
+        {
+            var lineStartIndex = GetCurrentLineStartIndex();
+
+            // Remove current timestamp from line
+            if (GetCurrentLineTimestamp() != null)
+            {
+                var endOfTimestampIndex = EditorText.IndexOf(']', lineStartIndex) + 1;
+                EditorText = EditorText.Remove(lineStartIndex, endOfTimestampIndex - lineStartIndex);
+            }
+
+            EditorText = EditorText.Insert(lineStartIndex, GetFormattedTimestamp(timestamp));
+
+            if (allowAdvanceToNextLine && Settings.Instance.AdvanceLineAfterSyncing)
+            {
+                AdvanceToNextLine();
+            }
+        }
+
+        private void JumpToTimestamp()
+        {
+            if (string.IsNullOrWhiteSpace(EditorText))
+            {
+                return;
+            }
+
+            var timestamp = GetCurrentLineTimestamp();
+            if (timestamp == null)
+            {
+                return;
+            }
+
+            MessageBus.Current.SendMessage(new JumpToTimestampEventArgs(timestamp.Value));
         }
     }
 }

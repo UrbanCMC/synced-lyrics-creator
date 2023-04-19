@@ -33,6 +33,16 @@ namespace SyncedLyricsCreator
         #region Hotkeys
 
         /// <summary>
+        /// Gets or sets the gesture to decrease the timestamp for the current line
+        /// </summary>
+        public KeyGesture DecreaseTimestampKeyBinding { get; set; } = null!;
+
+        /// <summary>
+        /// Gets or sets the gesture to increase the timestamp for the current line
+        /// </summary>
+        public KeyGesture IncreaseTimestampKeyBinding { get; set; } = null!;
+
+        /// <summary>
         /// Gets or sets the gesture to jump to the current timestamp in the loaded music file
         /// </summary>
         public KeyGesture JumpToTimestampKeyBinding { get; set; } = null!;
@@ -82,6 +92,8 @@ namespace SyncedLyricsCreator
         {
             AdvanceLineAfterSyncing = false;
 
+            DecreaseTimestampKeyBinding = KeyGesture.Parse("Ctrl+Down");
+            IncreaseTimestampKeyBinding = KeyGesture.Parse("Ctrl+Up");
             JumpToTimestampKeyBinding = KeyGesture.Parse("F6");
             SetTimestampKeyBinding = KeyGesture.Parse("F7");
 
