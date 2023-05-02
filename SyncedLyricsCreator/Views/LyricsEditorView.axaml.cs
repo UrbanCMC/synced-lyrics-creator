@@ -1,6 +1,9 @@
+using System;
 using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Markup.Xaml;
+using ReactiveUI;
+using SyncedLyricsCreator.Events;
 using SyncedLyricsCreator.ViewModels;
 
 namespace SyncedLyricsCreator.Views
@@ -17,6 +20,8 @@ namespace SyncedLyricsCreator.Views
         {
             InitializeComponent();
             DataContextChanged += (_, _) => RegisterHotkeys();
+            MessageBus.Current.Listen<SettingsChangedEventArgs>()
+                .Subscribe(new Action<object>(_ => RegisterHotkeys()));
         }
 
         private void InitializeComponent() => AvaloniaXamlLoader.Load(this);

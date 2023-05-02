@@ -1,6 +1,8 @@
 ﻿using System.Windows.Input;
 using ReactiveUI;
+using SyncedLyricsCreator.Events;
 using SyncedLyricsCreator.Helpers.Dialog;
+using KeyGesture = Avalonia.Input.KeyGesture;
 
 namespace SyncedLyricsCreator.ViewModels.Dialogs;
 
@@ -10,9 +12,13 @@ namespace SyncedLyricsCreator.ViewModels.Dialogs;
 public class SettingsDialogViewModel : ViewModelBase, IModalDialogViewModel
 {
     private bool advanceLineAfterSyncing;
+    private KeyGesture decreaseTimestampGesture;
     private bool? dialogResult;
+    private KeyGesture increaseTimestampGesture;
     private bool isComplete;
+    private KeyGesture jumpToTimestampGesture;
     private bool roundTimestampMsToHundredths;
+    private KeyGesture setTimestampGesture;
     private int timestampDelayMs;
 
     /// <summary>
@@ -56,6 +62,33 @@ public class SettingsDialogViewModel : ViewModelBase, IModalDialogViewModel
     }
 
     /// <summary>
+    /// Gets or sets the gesture for the hotkey used to decrease a line's timestamp by 50 ms
+    /// </summary>
+    public KeyGesture DecreaseTimestampGesture
+    {
+        get => decreaseTimestampGesture;
+        set => this.RaiseAndSetIfChanged(ref decreaseTimestampGesture, value);
+    }
+
+    /// <summary>
+    /// Gets or sets the gesture for the hotkey used to increase a line's timestamp by 50 ms
+    /// </summary>
+    public KeyGesture IncreaseTimestampGesture
+    {
+        get => increaseTimestampGesture;
+        set => this.RaiseAndSetIfChanged(ref increaseTimestampGesture, value);
+    }
+
+    /// <summary>
+    /// Gets or sets the gesture for the hotkey used to jump to a line's timestamp in the player
+    /// </summary>
+    public KeyGesture JumpToTimestampGesture
+    {
+        get => jumpToTimestampGesture;
+        set => this.RaiseAndSetIfChanged(ref jumpToTimestampGesture, value);
+    }
+
+    /// <summary>
     /// Gets or sets a value indicating whether the milliseconds of timestamps should be
     /// rounded to the hundredths position (e.g. <c>[00:01.123]</c> -> <c>[00:01.120]</c>)
     /// </summary>
@@ -63,6 +96,15 @@ public class SettingsDialogViewModel : ViewModelBase, IModalDialogViewModel
     {
         get => roundTimestampMsToHundredths;
         set => this.RaiseAndSetIfChanged(ref roundTimestampMsToHundredths, value);
+    }
+
+    /// <summary>
+    /// Gets or sets the gesture for the hotkey used to set a line's timestamp
+    /// </summary>
+    public KeyGesture SetTimestampGesture
+    {
+        get => setTimestampGesture;
+        set => this.RaiseAndSetIfChanged(ref setTimestampGesture, value);
     }
 
     /// <summary>
@@ -79,6 +121,11 @@ public class SettingsDialogViewModel : ViewModelBase, IModalDialogViewModel
     {
         AdvanceLineAfterSyncing = Settings.Instance.AdvanceLineAfterSyncing;
 
+        DecreaseTimestampGesture = Settings.Instance.DecreaseTimestampKeyBinding;
+        IncreaseTimestampGesture = Settings.Instance.IncreaseTimestampKeyBinding;
+        JumpToTimestampGesture = Settings.Instance.JumpToTimestampKeyBinding;
+        SetTimestampGesture = Settings.Instance.SetTimestampKeyBinding;
+
         RoundTimestampMsToHundredths = Settings.Instance.RoundTimestampMsToHundredths;
         TimestampDelayMs = Settings.Instance.TimestampDelayMs;
     }
@@ -87,10 +134,16 @@ public class SettingsDialogViewModel : ViewModelBase, IModalDialogViewModel
     {
         Settings.Instance.AdvanceLineAfterSyncing = AdvanceLineAfterSyncing;
 
+        Settings.Instance.DecreaseTimestampKeyBinding = DecreaseTimestampGesture;
+        Settings.Instance.IncreaseTimestampKeyBinding = IncreaseTimestampGesture;
+        Settings.Instance.JumpToTimestampKeyBinding = JumpToTimestampGesture;
+        Settings.Instance.SetTimestampKeyBinding = SetTimestampGesture;
+
         Settings.Instance.RoundTimestampMsToHundredths = RoundTimestampMsToHundredths;
         Settings.Instance.TimestampDelayMs = TimestampDelayMs;
 
         Settings.Instance.Write();
+        MessageBus.Current.SendMessage(new SettingsChangedEventArgs());
 
         DialogResult = true;
         IsComplete = true;

@@ -2,6 +2,7 @@
   xmlns="https://github.com/avaloniaui"
   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
   xmlns:ap="clr-namespace:SyncedLyricsCreator.Behaviors"
+  xmlns:controls="clr-namespace:SyncedLyricsCreator.Controls"
   xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
   xmlns:helpers="clr-namespace:SyncedLyricsCreator.Helpers"
   Title="Settings"
@@ -24,6 +25,35 @@
           </Grid>
         </HeaderedContentControl>
 
+        <!--  Hotkey settings  -->
+        <HeaderedContentControl Margin="10" Classes="GroupBox" Header="Hotkeys">
+          <Grid Margin="20,0,20,20" ColumnDefinitions="Auto,Auto" RowDefinitions="Auto,Auto,Auto,Auto">
+            <TextBlock Grid.Row="0" Grid.Column="0" Margin="0,0,0,10"
+              VerticalAlignment="Center" Text="Decrease timestamp (50ms)" ToolTip.Tip="Defines the hotkey used to decrease the current line's timestamp by 50 ms" />
+            <controls:GestureTextBox Grid.Row="0" Grid.Column="1" MinWidth="150"
+              Margin="10,0,0,10"
+              Gesture="{Binding DecreaseTimestampGesture, Mode=TwoWay}" />
+
+            <TextBlock Grid.Row="1" Grid.Column="0" Margin="0,0,0,10"
+              VerticalAlignment="Center" Text="Increase timestamp (50ms)" ToolTip.Tip="Defines the hotkey used to increase the current line's timestamp by 50 ms" />
+            <controls:GestureTextBox Grid.Row="1" Grid.Column="1" MinWidth="150"
+              Margin="10,0,0,10"
+              Gesture="{Binding IncreaseTimestampGesture, Mode=TwoWay}" />
+
+            <TextBlock Grid.Row="2" Grid.Column="0" Margin="0,0,0,10"
+              VerticalAlignment="Center" Text="Jump to timestamp" ToolTip.Tip="Defines the hotkey used to jump to the timestamp of the current line in the audio player" />
+            <controls:GestureTextBox Grid.Row="2" Grid.Column="1" MinWidth="150"
+              Margin="10,0,0,10"
+              Gesture="{Binding JumpToTimestampGesture, Mode=TwoWay}" />
+
+            <TextBlock Grid.Row="3" Grid.Column="0" Margin="0,0,0,10"
+              VerticalAlignment="Center" Text="Set timestamp" ToolTip.Tip="Defines the hotkey used to set the timestamp of the current line" />
+            <controls:GestureTextBox Grid.Row="3" Grid.Column="1" MinWidth="150"
+              Margin="10,0,0,10"
+              Gesture="{Binding SetTimestampGesture, Mode=TwoWay}" />
+          </Grid>
+        </HeaderedContentControl>
+
         <!--  Timestamp settings  -->
         <HeaderedContentControl Margin="10" Classes="GroupBox" Header="Timestamps">
           <Grid Margin="20,0,20,20" ColumnDefinitions="Auto,Auto" RowDefinitions="Auto,Auto">
@@ -33,7 +63,7 @@
               ToolTip.Tip="Whether timestamp milliseconds should be rounded to the hundredths. Otherwise, they will use thousandths precision." />
             <TextBlock Grid.Row="1" Grid.Column="0" VerticalAlignment="Center"
               Text="Timestamp Delay (ms)" ToolTip.Tip="Sets the delay in milliseconds that should be subtracted when syncing a line." />
-            <NumericUpDown Grid.Row="1" Grid.Column="1" Margin="10,10,0,0"
+            <NumericUpDown Grid.Row="1" Grid.Column="1" Margin="10,0,0,0"
               HorizontalAlignment="Left" HorizontalContentAlignment="Right" Increment="1"
               Maximum="1000" Minimum="0" ShowButtonSpinner="False"
               Value="{Binding TimestampDelayMs, Mode=TwoWay}" />
