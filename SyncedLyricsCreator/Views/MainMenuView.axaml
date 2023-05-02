@@ -10,8 +10,10 @@
   mc:Ignorable="d">
   <Menu>
     <MenuItem Header="File">
-      <MenuItem Command="{Binding OpenCommand}" Header="Open..." HotKey="Ctrl+O" />
-      <MenuItem Command="{Binding SaveCommand}" Header="Save" HotKey="Ctrl+S" />
+      <MenuItem Command="{Binding OpenCommand}"
+        Header="Open..." HotKey="Ctrl+O" InputGesture="Ctrl+O" />
+      <MenuItem Command="{Binding SaveCommand}"
+        Header="Save" HotKey="Ctrl+S" InputGesture="Ctrl+S" />
       <Separator />
       <MenuItem Command="{Binding SettingsCommand}" Header="Settings..." />
       <Separator />

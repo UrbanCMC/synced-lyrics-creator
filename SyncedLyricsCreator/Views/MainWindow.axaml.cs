@@ -1,3 +1,4 @@
+using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
 
@@ -13,6 +14,13 @@ namespace SyncedLyricsCreator.Views
         /// </summary>
         public MainWindow() => InitializeComponent();
 
-        private void InitializeComponent() => AvaloniaXamlLoader.Load(this);
+        private void InitializeComponent()
+        {
+            AvaloniaXamlLoader.Load(this);
+
+#if DEBUG
+            this.AttachDevTools();
+#endif
+        }
     }
 }
