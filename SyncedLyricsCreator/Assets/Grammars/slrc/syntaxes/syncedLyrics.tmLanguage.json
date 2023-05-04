@@ -1,0 +1,27 @@
+﻿{
+  "name": "Synchronized Lyrics",
+  "version": "1.0.0",
+  "scopeName": "source.syncedLyrics",
+  "patterns": [
+    {
+      "begin": "\\[",
+      "beginCaptures": {
+        "0": {
+          "name": "keyword.control.timestamp.begin"
+        }
+      },
+      "end": "\\]",
+      "endCaptures": {
+        "0": {
+          "name": "keyword.control.timestamp.end"
+        }
+      },
+      "patterns": [
+        {
+          "name": "constant.numeric.timestamp",
+          "match": "\\d{1,2}:\\d{2}.\\d{2,3}"
+        }
+      ]
+    }
+  ]
+}

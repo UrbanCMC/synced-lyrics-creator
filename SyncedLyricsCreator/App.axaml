@@ -9,6 +9,7 @@
 
   <Application.Styles>
     <fa:FluentAvaloniaTheme />
+    <StyleInclude Source="avares://AvaloniaEdit/AvaloniaEdit.xaml" />
     <StyleInclude Source="avares://SyncedLyricsCreator/Assets/Styles/AppColors.axaml" />
     <StyleInclude Source="avares://SyncedLyricsCreator/Assets/Styles/ControlStyles.axaml" />
   </Application.Styles>

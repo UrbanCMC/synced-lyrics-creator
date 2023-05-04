@@ -1,14 +1,19 @@
 <UserControl x:Class="SyncedLyricsCreator.Views.LyricsEditorView"
   xmlns="https://github.com/avaloniaui"
   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+  xmlns:avaloniaEdit="clr-namespace:AvaloniaEdit;assembly=AvaloniaEdit"
+  xmlns:behaviors="clr-namespace:SyncedLyricsCreator.Behaviors"
   xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
   xmlns:helpers="clr-namespace:SyncedLyricsCreator.Helpers"
+  xmlns:i="clr-namespace:Avalonia.Xaml.Interactivity;assembly=Avalonia.Xaml.Interactivity"
   xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
   d:DataContext="{x:Static helpers:DesignData.LyricsEditorViewModel}"
   d:DesignHeight="450"
   d:DesignWidth="450"
   mc:Ignorable="d">
-  <TextBox x:Name="LyricsTextBox" AcceptsReturn="True"
-    CaretIndex="{Binding CursorIndex, Mode=TwoWay}"
-    Text="{Binding EditorText}" />
+  <avaloniaEdit:TextEditor x:Name="LyricsTextBox" Background="#323232">
+    <i:Interaction.Behaviors>
+      <behaviors:TextEditorBindingBehavior CaretOffset="{Binding CursorIndex, Mode=TwoWay}" Text="{Binding EditorText, Mode=TwoWay}" />
+    </i:Interaction.Behaviors>
+  </avaloniaEdit:TextEditor>
 </UserControl>

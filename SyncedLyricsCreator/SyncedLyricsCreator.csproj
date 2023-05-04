@@ -41,6 +41,10 @@
   </PropertyGroup>
   <ItemGroup>
     <AvaloniaResource Include="Assets\**" />
+    <AvaloniaResource Remove="Assets\Grammars\**\*.json" />
+    <AvaloniaResource Remove="Assets\Themes\*.json" />
+    <EmbeddedResource Include="Assets\Grammars\**\*.json" />
+    <EmbeddedResource Include="Assets\Themes\*.json" />
   </ItemGroup>
   <ItemGroup>
     <!--This helps with theme dll-s trimming.
@@ -56,6 +60,7 @@
     <PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics" Version="0.10.18" />
     <PackageReference Include="Avalonia.ReactiveUI" Version="0.10.18" />
     <PackageReference Include="Avalonia.Xaml.Behaviors" Version="0.10.18" />
+    <PackageReference Include="AvaloniaEdit.TextMate" Version="0.10.12.2" />
     <PackageReference Include="FluentAvaloniaUI" Version="1.4.5" />
     <PackageReference Include="nulastudio.NetBeauty" Version="2.0.0-beta.6" />
     <PackageReference Include="Roslynator.Analyzers" Version="4.2.0">

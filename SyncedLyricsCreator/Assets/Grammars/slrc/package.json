@@ -1,0 +1,29 @@
+﻿{
+  "name": "slrc",
+  "displayName": "Synchronized Lyrics",
+  "description": "Provides syntax highlighting and bracket matching in synchronized lyrics files.",
+  "version": "1.0.0",
+  "publisher": "UrbanCMC",
+  "license": "MIT",
+  "contributes": {
+    "languages": [
+      {
+        "id": "slrc",
+        "extensions": [
+          ".slrc"
+        ],
+        "aliases": [
+          "Synchronized Lyrics",
+          "slrc"
+        ]
+      }
+    ],
+    "grammars": [
+      {
+        "language": "slrc",
+        "scopeName": "source.syncedLyrics",
+        "path": "./syntaxes/syncedLyrics.tmLanguage.json"
+      }
+    ]
+  }
+}
