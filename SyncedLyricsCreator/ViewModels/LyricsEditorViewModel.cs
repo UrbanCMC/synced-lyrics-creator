@@ -145,7 +145,7 @@ namespace SyncedLyricsCreator.ViewModels
             var nextLineBreakIndex = EditorText.IndexOf(Environment.NewLine, lineStartIndex, StringComparison.Ordinal);
             if (nextLineBreakIndex > lineStartIndex)
             {
-                CursorIndex = nextLineBreakIndex + 1;
+                CursorIndex = nextLineBreakIndex + Environment.NewLine.Length;
             }
         }
 

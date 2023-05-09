@@ -22,7 +22,7 @@ namespace SyncedLyricsCreator
         {
             if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
             {
-                var fileArgument = desktop.Args.Length >= 1 ? desktop.Args[0] : null;
+                var fileArgument = desktop.Args?.Length >= 1 ? desktop.Args[0] : null;
                 var context = Locator.Current.GetRequiredService<MainWindowViewModel>();
                 if (File.Exists(fileArgument))
                 {

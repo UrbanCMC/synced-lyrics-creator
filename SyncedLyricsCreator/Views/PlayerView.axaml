@@ -14,7 +14,7 @@
   <Grid ColumnDefinitions="Auto,*,Auto">
     <!--  Playback controls  -->
     <StackPanel Grid.Column="0" Orientation="Horizontal">
-      <fa:Button Margin="10,0"
+      <Button Margin="10,0"
         Command="{Binding TogglePlayPauseCommand, Mode=OneTime}"
         FontSize="30" ToolTip.Tip="Play / Pause">
         <fa:SymbolIcon x:Name="PlayPauseButton" Symbol="PlayFilled">
@@ -29,11 +29,11 @@
             </ia:DataTriggerBehavior>
           </i:Interaction.Behaviors>
         </fa:SymbolIcon>
-      </fa:Button>
+      </Button>
 
-      <fa:Button Command="{Binding StopPlaybackCommand, Mode=OneTime}" FontSize="30" ToolTip.Tip="Stop">
+      <Button Command="{Binding StopPlaybackCommand, Mode=OneTime}" FontSize="30" ToolTip.Tip="Stop">
         <fa:SymbolIcon Symbol="StopFilled" />
-      </fa:Button>
+      </Button>
     </StackPanel>
 
     <!--  Track position  -->

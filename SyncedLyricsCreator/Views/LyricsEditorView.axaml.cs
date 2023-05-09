@@ -18,8 +18,8 @@ namespace SyncedLyricsCreator.Views
     {
         private const string TextMateGrammar = "source.syncedLyrics";
 
+        private readonly TextEditor editor;
         private LyricsEditorViewModel lyricsEditorVm = null!;
-        private TextEditor editor;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="LyricsEditorView"/> class.
@@ -35,7 +35,7 @@ namespace SyncedLyricsCreator.Views
             MessageBus.Current.Listen<SettingsChangedEventArgs>()
                 .Subscribe(new Action<object>(_ => RegisterHotkeys()));
 
-            editor = this.FindControl<TextEditor>("LyricsTextBox");
+            editor = this.FindControl<TextEditor>("LyricsTextBox")!;
             var registryOptions = new RegistryOptions();
             var textMateInstallation = editor.InstallTextMate(registryOptions);
 

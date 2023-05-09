@@ -50,7 +50,7 @@ public partial class GestureTextBox : UserControl
     {
         AvaloniaXamlLoader.Load(this);
 
-        textBox = this.FindControl<TextBox>("TextBox");
+        textBox = this.FindControl<TextBox>("TextBox")!;
     }
 
     private void OnKeyDown(object? sender, KeyEventArgs e)

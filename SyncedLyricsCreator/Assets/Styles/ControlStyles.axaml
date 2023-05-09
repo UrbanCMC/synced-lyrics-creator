@@ -10,7 +10,7 @@
               <ContentPresenter Padding="10"
                 Background="{DynamicResource AccentBackground}"
                 Content="{TemplateBinding Header}"
-                TextBlock.FontWeight="Bold" />
+                FontWeight="Bold" />
               <Border BorderBrush="{DynamicResource AccentBackground}" BorderThickness="1">
                 <ContentPresenter Margin="10" Content="{TemplateBinding Content}" />
               </Border>

@@ -4,9 +4,9 @@
   Title="WindowTitle"
   MaxWidth="650"
   CanResize="False"
+  FontSize="12"
+  FontWeight="Medium"
   SizeToContent="WidthAndHeight"
-  TextBlock.FontSize="12"
-  TextBlock.FontWeight="Medium"
   WindowStartupLocation="CenterScreen">
   <StackPanel MaxWidth="650" Orientation="Vertical">
     <Grid ColumnDefinitions="Auto,*">

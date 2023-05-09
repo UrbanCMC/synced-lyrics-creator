@@ -11,8 +11,13 @@ namespace SyncedLyricsCreator
     public class ViewLocator : IDataTemplate
     {
         /// <inheritdoc/>
-        public IControl Build(object data)
+        public Control Build(object? data)
         {
+            if (data == null)
+            {
+                return new TextBlock { Text = "No data" };
+            }
+
             var name = data.GetType().FullName!.Replace("ViewModel", "View");
             var type = Type.GetType(name);
 
@@ -20,13 +25,11 @@ namespace SyncedLyricsCreator
             {
                 return (Control)Activator.CreateInstance(type)!;
             }
-            else
-            {
-                return new TextBlock { Text = "Not Found: " + name };
-            }
+
+            return new TextBlock { Text = "Not Found: " + name };
         }
 
         /// <inheritdoc/>
-        public bool Match(object data) => data is ViewModelBase;
+        public bool Match(object? data) => data is ViewModelBase;
     }
 }
