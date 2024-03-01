@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using Accessibility;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
@@ -27,6 +28,7 @@ namespace SyncedLyricsCreator.ViewModels
             ExitCommand = ReactiveCommand.Create(Exit);
             OpenCommand = ReactiveCommand.Create(PublishLoadEventAsync);
             SaveCommand = ReactiveCommand.Create(PublishSaveEvent);
+            SearchCommand = ReactiveCommand.CreateFromTask(ShowSearch);
             SettingsCommand = ReactiveCommand.Create(ShowSettings);
         }
 
@@ -44,6 +46,11 @@ namespace SyncedLyricsCreator.ViewModels
         /// Gets the command to save the lyrics currently in the editor
         /// </summary>
         public ICommand SaveCommand { get; }
+
+        /// <summary>
+        /// Gets the command to search for lyrics on the web
+        /// </summary>
+        public ICommand SearchCommand { get; }
 
         /// <summary>
         /// Gets the command to show the settings window
@@ -89,6 +96,16 @@ namespace SyncedLyricsCreator.ViewModels
             }
 
             MessageBus.Current.SendMessage(new OnSaveTrackEventArgs(currentFilePath));
+        }
+
+        private async Task ShowSearch()
+        {
+            var vm = new LyricsSearchViewModel(currentFilePath);
+            var selectedLyrics = await DialogService.ShowDialog(vm);
+            if (selectedLyrics == true)
+            {
+                MessageBus.Current.SendMessage(new OnSelectLyricsEventArgs(vm.SelectedSearchResult!.SyncedLyrics));
+            }
         }
 
         private void ShowSettings() => _ = DialogService.ShowDialog(new SettingsDialogViewModel());

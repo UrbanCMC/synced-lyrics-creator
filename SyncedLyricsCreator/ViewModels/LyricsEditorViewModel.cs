@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Globalization;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Windows.Input;
 using ReactiveUI;
 using SyncedLyricsCreator.Data.Models;
@@ -31,6 +32,8 @@ namespace SyncedLyricsCreator.ViewModels
             // Subscribe to events
             MessageBus.Current.Listen<ResolveGetPlaybackTimestampEventArgs>()
                 .Subscribe(InsertPlaybackTime);
+            MessageBus.Current.Listen<OnSelectLyricsEventArgs>()
+                .Subscribe(SetLyrics);
 
             DecreaseTimestampCommand = ReactiveCommand.Create(DecreaseTimestamp);
             IncreaseTimestampCommand = ReactiveCommand.Create(IncreaseTimestamp);
@@ -107,7 +110,7 @@ namespace SyncedLyricsCreator.ViewModels
                     continue;
                 }
 
-                var endOfTimestampIndex = EditorText.IndexOf(']') + 1;
+                var endOfTimestampIndex = line.IndexOf(']') + 1;
                 lyrics.Lines.Add(new Lyrics.LyricsLine { Timestamp = timestamp.Value, Text = line[endOfTimestampIndex..].Trim() });
             }
 
@@ -281,6 +284,11 @@ namespace SyncedLyricsCreator.ViewModels
             }
 
             MessageBus.Current.SendMessage(new JumpToTimestampEventArgs(timestamp.Value));
+        }
+
+        private void SetLyrics(OnSelectLyricsEventArgs args)
+        {
+            EditorText = args.Lyrics;
         }
     }
 }

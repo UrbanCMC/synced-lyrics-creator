@@ -19,5 +19,8 @@
       <Separator />
       <MenuItem Command="{Binding ExitCommand}" Header="Exit" />
     </MenuItem>
+    <MenuItem Header="Tools">
+      <MenuItem Command="{Binding SearchCommand}" Header="Search..." />
+    </MenuItem>
   </Menu>
 </UserControl>

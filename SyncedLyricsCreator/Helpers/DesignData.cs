@@ -1,4 +1,5 @@
-﻿using SyncedLyricsCreator.ViewModels;
+﻿using SyncedLyricsCreator.Data.Enums;
+using SyncedLyricsCreator.ViewModels;
 using SyncedLyricsCreator.ViewModels.Dialogs;
 
 namespace SyncedLyricsCreator.Helpers
@@ -12,6 +13,17 @@ namespace SyncedLyricsCreator.Helpers
         /// Gets a design-time <see cref="LyricsEditorViewModel"/>
         /// </summary>
         public static LyricsEditorViewModel LyricsEditorViewModel { get; } = new();
+
+        /// <summary>
+        /// Gets a design-time <see cref="LyricsSearchViewModel"/>
+        /// </summary>
+        public static LyricsSearchViewModel LyricsSearchViewModel { get; } = new("")
+        {
+            SearchAlbum = "MyAlbum"
+            , SearchArtist = "MyArtist"
+            , SearchTrack = "MyTrack"
+            , SelectedSearchApi = LyricsSearchApi.LrcLib
+        };
 
         /// <summary>
         /// Gets a design-time <see cref="MainMenuViewModel"/>
