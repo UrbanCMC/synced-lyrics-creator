@@ -56,7 +56,11 @@ namespace SyncedLyricsCreator.ViewModels
         public string EditorText
         {
             get => editorText;
-            set => this.RaiseAndSetIfChanged(ref editorText, value);
+            set
+            {
+                value = Regex.Replace(value, "(?<!\r)\n", Environment.NewLine);
+                this.RaiseAndSetIfChanged(ref editorText, value);
+            }
         }
 
         /// <summary>
