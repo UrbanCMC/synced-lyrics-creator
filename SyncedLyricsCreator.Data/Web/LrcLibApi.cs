@@ -56,7 +56,7 @@ public static class LrcLibApi
                         Album = result.GetProperty("albumName").GetString() ?? ""
                         , Artist = result.GetProperty("artistName").GetString() ?? ""
                         , Track = result.GetProperty("trackName").GetString() ?? ""
-                        , Duration = result.GetProperty("duration").GetInt32()
+                        , Duration = Convert.ToInt32(result.GetProperty("duration").GetSingle())
                         , IsInstrumental = result.GetProperty("instrumental").GetBoolean()
                         , PlainLyrics = result.GetProperty("plainLyrics").GetString() ?? ""
                         , SyncedLyrics = result.GetProperty("syncedLyrics").GetString() ?? ""

@@ -104,7 +104,13 @@ namespace SyncedLyricsCreator.ViewModels
             var selectedLyrics = await DialogService.ShowDialog(vm);
             if (selectedLyrics == true)
             {
-                MessageBus.Current.SendMessage(new OnSelectLyricsEventArgs(vm.SelectedSearchResult!.SyncedLyrics));
+                var lyrics = vm.SelectedSearchResult!.SyncedLyrics;
+                if (string.IsNullOrWhiteSpace(lyrics))
+                {
+                    lyrics = vm.SelectedSearchResult!.PlainLyrics;
+                }
+
+                MessageBus.Current.SendMessage(new OnSelectLyricsEventArgs(lyrics));
             }
         }
 
